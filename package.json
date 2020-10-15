@@ -1,7 +1,7 @@
 {
   "name": "jsconfig.json",
   "version": "0.1.0",
-  "description": "",
+  "description": "Small tool which automatically generates jsconfig.json, used for vscode workspace configuration, with defaults and paths from webpack config.",
   "bin": {
     "create-ima-app": "./src/index.js"
   },
