@@ -1,0 +1,42 @@
+{
+  "name": "jsconfig.json",
+  "version": "0.1.0",
+  "description": "",
+  "bin": {
+    "create-ima-app": "./src/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsimck/jsconfig.json.git"
+  },
+  "keywords": [
+    "vscode",
+    "visual studio code",
+    "jsconfig",
+    "webpack",
+    "jsconfig.json",
+    "tsconfig.json"
+  ],
+  "author": "Jan Šimeček <simecekjann@gmail.com> (jansimecek.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jsimck/jsconfig.json/issues"
+  },
+  "homepage": "https://github.com/jsimck/jsconfig.json#readme",
+  "devDependencies": {
+    "eslint": "^7.7.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "nodemon": "^2.0.5",
+    "prettier": "^2.1.1"
+  },
+  "dependencies": {
+    "deepmerge": "^4.2.2",
+    "yargs": "^16.0.3"
+  }
+}
