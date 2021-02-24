@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "checkJs": false,
+    "resolveJsonModule": true,
+    "paths": {
+      "shared/*": [
+        "../../Workspace/volby-widget/packages/shared/src/*"
+      ],
+      "src/*": [
+        "src/*"
+      ],
+      "@merkur/core/*": [
+        "../../Workspace/volby-widget/node_modules/@merkur/core/lib/index.es5/*"
+      ],
+      "@merkur/plugin-component/*": [
+        "../../Workspace/volby-widget/node_modules/@merkur/plugin-component/lib/index.es5/*"
+      ],
+      "@merkur/plugin-event-emitter/*": [
+        "../../Workspace/volby-widget/node_modules/@merkur/plugin-event-emitter/lib/index.es5/*"
+      ],
+      "@merkur/plugin-http-client/*": [
+        "../../Workspace/volby-widget/node_modules/@merkur/plugin-http-client/lib/index.es5/*"
+      ],
+      "@merkur/plugin-router/*": [
+        "../../Workspace/volby-widget/node_modules/@merkur/plugin-router/lib/index.es5/*"
+      ]
+    },
+    "moduleResolution": "node",
+    "target": "es2020",
+    "module": "es2015"
+  },
+  "exclude": [
+    "dist",
+    "node_modules",
+    "build",
+    ".vscode",
+    "coverage",
+    "jspm_packages",
+    "tmp",
+    "temp",
+    "bower_components",
+    ".npm",
+    ".yarn"
+  ],
+  "typeAcquisition": {
+    "enable": true
+  }
+}
