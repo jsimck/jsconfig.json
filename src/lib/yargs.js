@@ -1,19 +1,27 @@
 const yargs = require('yargs');
-const { CliArgs } = require('./argsParser');
+
+const CLIArgs = Object.freeze({
+  WEBPACK_CONFIG: 'webpackConfig',
+  MODULE_RESOLUTION: 'moduleResolution',
+  EXPERIMENTAL_DECORATORS: 'experimentalDecorators',
+  SYNTHETIC_IMPORTS: 'syntheticImports',
+  TARGET: 'target',
+  MODULE: 'module',
+});
 
 /**
  * Option descriptions are taken directly from the jsconfig documentation
  * https://code.visualstudio.com/docs/languages/jsconfig
  */
-const cliYargs = yargs
+const argv = yargs
   .usage('Usage: npx jsconfig.json <baseFolder> [options]')
   .option({
-    [CliArgs.WEBPACK_CONFIG]: {
+    [CLIArgs.WEBPACK_CONFIG]: {
       alias: 'c',
       description: 'Custom path to webpack.config.js',
       type: 'string',
     },
-    [CliArgs.TARGET]: {
+    [CLIArgs.TARGET]: {
       alias: 't',
       default: 'es2020',
       type: 'string',
@@ -31,7 +39,7 @@ const cliYargs = yargs
         'esnext',
       ],
     },
-    [CliArgs.MODULE]: {
+    [CLIArgs.MODULE]: {
       alias: 'm',
       default: 'es2015',
       type: 'string',
@@ -47,19 +55,19 @@ const cliYargs = yargs
         'umd',
       ],
     },
-    [CliArgs.MODULE_RESOLUTION]: {
+    [CLIArgs.MODULE_RESOLUTION]: {
       alias: 'r',
       default: 'node',
       type: 'string',
       description: 'Specifies how modules are resolved for imports',
       choices: ['node', 'classic'],
     },
-    [CliArgs.EXPERIMENTAL_DECORATORS]: {
+    [CLIArgs.EXPERIMENTAL_DECORATORS]: {
       alias: 'e',
       type: 'boolean',
       description: 'Enables experimental support for proposed ES decorators',
     },
-    [CliArgs.SYNTHETIC_IMPORTS]: {
+    [CLIArgs.SYNTHETIC_IMPORTS]: {
       alias: 's',
       type: 'boolean',
       description:
@@ -68,4 +76,7 @@ const cliYargs = yargs
   })
   .wrap(Math.min(110, yargs.terminalWidth())).argv;
 
-module.exports = cliYargs;
+module.exports = {
+  argv,
+  CLIArgs,
+};

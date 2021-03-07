@@ -32,41 +32,38 @@ function extractPaths(config, baseUrl) {
 }
 
 /**
- * Parses webpack config and returns viable vscode jsconfig.json
- * options extracted from the given webpack config.
+ * Parses webpack config, fills up paths and baseUrl if defined.
  *
- * @param {string} configPath
- * @param {string} [baseUrl='.']
- * @return {Promise<object>} extracted webpack configs converted to jsconfig.json format
+ * @param {{ params, config }} args Object with params and config objects.
+ * @return {Promise<{ params, config }>} Adjusted object with params and config objects.
  */
-async function parseWebpackConfig(configPath, baseUrl = './') {
-  const fullConfigPath =
-    configPath && configPath.endsWith('.js')
-      ? configPath
-      : path.resolve(baseUrl, 'webpack.config.js');
+async function webpackParser({ params, config }) {
+  const { webpackConfigLocation, baseUrl } = params;
+  const fullConfigPath = path.resolve(webpackConfigLocation);
 
   if (!fs.existsSync(fullConfigPath)) {
-    return {};
+    return { params, config };
   }
 
-  const config = require(fullConfigPath);
-  if (!['object', 'function'].includes(typeof config)) {
+  const webpackConfig = require(fullConfigPath);
+
+  if (!['object', 'function'].includes(typeof webpackConfig)) {
     console.warn(
       `Unable to parse given webpack config: ${fullConfigPath}, it must be either object, function or a promise.`
     );
 
-    return {};
+    return { params, config };
   }
 
   const parsedConfig =
-    typeof config === 'object'
-      ? await Promise.resolve(config)
+    typeof webpackConfig === 'object'
+      ? await Promise.resolve(webpackConfig)
       : config(...MOCK_ARGS);
 
   if (!parsedConfig || typeof parsedConfig !== 'object') {
-    console.warn('Unknown error occured while parsing webpack config.');
+    console.warn('Unknown error occurred while parsing webpack config.');
 
-    return {};
+    return { params, config };
   }
 
   const paths = Array.isArray(parsedConfig)
@@ -79,16 +76,22 @@ async function parseWebpackConfig(configPath, baseUrl = './') {
       )
     : extractPaths(parsedConfig, baseUrl);
 
-  return paths !== null
-    ? {
-        compilerOptions: {
-          paths,
-          baseUrl,
-        },
-      }
-    : {};
+  if (params === null) {
+    return { params, config };
+  }
+
+  return {
+    params,
+    config: {
+      ...config,
+      compilerOptions: {
+        paths,
+        ...config.compilerOptions,
+      },
+    },
+  };
 }
 
 module.exports = {
-  parseWebpackConfig,
+  webpackParser,
 };
