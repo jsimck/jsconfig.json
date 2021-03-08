@@ -1,6 +1,6 @@
 {
   "name": "jsconfig.json",
-  "version": "0.1.0-beta.4",
+  "version": "0.1.0-beta.5",
   "description": "Small tool which automatically generates jsconfig.json, used for vscode workspace configuration, with defaults and paths from webpack config.",
   "bin": {
     "jsconfig.json": "./src/index.js"
