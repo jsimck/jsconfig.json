@@ -4,23 +4,19 @@
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "target": "es2020",
-    "module": "es2015",
+    "module": "commonJS"
   },
   "exclude": [
     "dist",
     "node_modules",
     "build",
     ".vscode",
-    ".nuxt",
     "coverage",
-    "jspm_packages",
-    "tmp",
-    "temp",
-    "bower_components",
     ".npm",
     ".yarn"
   ],
   "typeAcquisition": {
-    "enable": true
+    "enable": true,
+    "include": ["node"]
   }
 }

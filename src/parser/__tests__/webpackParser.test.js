@@ -50,11 +50,11 @@ describe('extractPaths()', () => {
             },
           },
         },
-        ''
+        './'
       )
     ).toStrictEqual({
-      'shared/*': ['=>packages/shared/src//*'],
-      'src/*': ['=>src//*'],
+      'shared/*': ['./=>packages/shared/src//*'],
+      'src/*': ['./=>src//*'],
     });
   });
 

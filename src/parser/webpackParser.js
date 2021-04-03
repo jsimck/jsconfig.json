@@ -14,7 +14,7 @@ const MOCK_ARGS = [process?.env?.NODE_ENV ?? 'development', ''];
 function extractPaths(config, baseUrl) {
   const aliases = config?.resolve?.alias;
 
-  if (!aliases || Object.keys(aliases).length === 0) {
+  if (!baseUrl || !aliases || Object.keys(aliases).length === 0) {
     return null;
   }
 
@@ -35,8 +35,8 @@ function extractPaths(config, baseUrl) {
  * @return {Promise<{ params, config }>} Adjusted object with params and config objects.
  */
 async function webpackParser({ params, config }) {
-  const { baseUrl } = config;
   const { webpackConfigLocation } = params;
+  const { baseUrl } = config?.compilerOptions ?? {};
   const fullConfigPath = path.resolve(webpackConfigLocation);
 
   if (!fs.existsSync(fullConfigPath)) {

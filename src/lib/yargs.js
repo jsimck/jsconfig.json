@@ -22,7 +22,7 @@ const argv = yargs
       alias: 't',
       default: 'default',
       description: 'Base jsconfig.json template',
-      choices: ['default', 'nextjs', 'react', 'vuejs'],
+      choices: ['default', 'nextjs', 'react', 'vuejs', 'node'],
     },
     [CLIArgs.BASE_URL]: {
       alias: 'b',
