@@ -5,7 +5,6 @@
     "moduleResolution": "node",
     "target": "es2020",
     "module": "es2015",
-    "baseUrl": "."
   },
   "exclude": [
     "dist",
@@ -20,5 +19,11 @@
     "bower_components",
     ".npm",
     ".yarn"
-  ]
+  ],
+  "typeAcquisition": {
+    "enable": true,
+    "include": [
+      "jest"
+    ]
+  }
 }

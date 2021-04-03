@@ -5,14 +5,16 @@ const promisify = require('util').promisify;
 const writeFile = promisify(fs.writeFile);
 const chalk = require('chalk');
 
+const JSCONFIG_JSON_FILENAME = 'jsconfig.json';
+
 /**
  * Deep merges custom config with the one in the template and generates
  * new jsconfig.json file in the basePath.
  *
- * @param {object} params Params object containing parser related information.
- * @param {object} [config = {}] jsconfig.json config to merge with template.
+ * @param {{ params, config }} args Object with params and config objects.
+ * @return {Promise}
  */
-async function persist({ cwd, template }, config = {}) {
+async function persist({ params: { cwd, template } = {}, config = {} } = {}) {
   info(`Generating jsconfig with '${template}' template...`);
 
   const jsonConfigTpl = require(path.resolve(
@@ -21,7 +23,7 @@ async function persist({ cwd, template }, config = {}) {
   ));
 
   return writeFile(
-    path.join(cwd, 'jsconfig.json'),
+    path.join(cwd, JSCONFIG_JSON_FILENAME),
     JSON.stringify(merge(jsonConfigTpl, config), null, 2)
   );
 }

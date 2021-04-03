@@ -19,5 +19,8 @@
     "coverage",
     ".npm",
     ".yarn"
-  ]
+  ],
+  "typeAcquisition": {
+    "enable": true
+  }
 }

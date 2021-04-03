@@ -23,6 +23,7 @@
     ".yarn"
   ],
   "typeAcquisition": {
+    "enable": true,
     "include": ["react", "react-dom"]
   }
 }

@@ -16,5 +16,8 @@
     "bower_components",
     ".npm",
     ".yarn"
-  ]
+  ],
+  "typeAcquisition": {
+    "enable": true
+  }
 }
