@@ -1,11 +1,8 @@
 module.exports = {
-  verbose: true,
-  bail: true,
-  coverageThreshold: {
-    global: {
-      branches: 80,
-      lines: 80,
-      statements: -10,
-    },
-  },
+  bail: 0,
+  clearMocks: true,
+  coverageDirectory: 'coverage',
+  coverageProvider: 'v8',
+  testMatch: ['<rootDir>/src/**/__tests__/*.test.js'],
+  testEnvironment: 'node',
 };

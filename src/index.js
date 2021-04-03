@@ -6,6 +6,7 @@ const { persist, success, error, info } = require('./lib/utils');
 const { argv } = require('./lib/yargs');
 
 // TODO add support for custom parsers
+// TODO better jsdoc?
 
 (async function () {
   const parsers = [argsParser, webpackParser];

@@ -14,7 +14,7 @@ const MOCK_ARGS = [process?.env?.NODE_ENV ?? 'development', ''];
 function extractPaths(config, baseUrl) {
   const aliases = config?.resolve?.alias;
 
-  if (!aliases) {
+  if (!aliases || Object.keys(aliases).length === 0) {
     return null;
   }
 
@@ -22,11 +22,7 @@ function extractPaths(config, baseUrl) {
     const pathKey = `${cur}/*`;
     const pathVal = `${path.relative(baseUrl, aliases[cur])}/*`;
 
-    if (acc[pathKey]?.includes?.(pathVal)) {
-      acc[pathKey].push([pathVal]);
-    } else {
-      acc[pathKey] = [pathVal];
-    }
+    acc[pathKey] = [pathVal];
 
     return acc;
   }, {});
@@ -91,4 +87,5 @@ async function webpackParser({ params, config }) {
 
 module.exports = {
   webpackParser,
+  extractPaths,
 };

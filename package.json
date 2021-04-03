@@ -6,7 +6,7 @@
     "jsconfig.json": "./dist/index.js"
   },
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
     "test:watch": "npm run test -- --watch --maxWorkers=50%",
     "dev": "nodemon ./src/index.js",
     "build": "babel src --out-dir dist"
