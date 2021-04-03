@@ -1,18 +1,22 @@
 {
   "compilerOptions": {
     "checkJs": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "target": "es2015",
+    "module": "es2015",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+    }
   },
   "exclude": [
     "dist",
     "node_modules",
     "build",
     ".vscode",
+    ".nuxt",
     "coverage",
-    "jspm_packages",
-    "tmp",
-    "temp",
-    "bower_components",
     ".npm",
     ".yarn"
   ],

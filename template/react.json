@@ -3,27 +3,21 @@
     "checkJs": false,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "target": "es2020",
+    "target": "es2018",
     "module": "es2015",
+    "baseUrl": "src"
   },
   "exclude": [
     "dist",
     "node_modules",
     "build",
     ".vscode",
-    ".nuxt",
     "coverage",
-    "jspm_packages",
-    "tmp",
-    "temp",
-    "bower_components",
     ".npm",
     ".yarn"
   ],
   "typeAcquisition": {
     "enable": true,
-    "include": [
-      "jest"
-    ]
+    "include": ["react", "react-dom", "jest", "testing-library__jest-dom"]
   }
 }

@@ -10,6 +10,8 @@ paths based on those aliases and provided base folder argument, which enables co
 npx jsconfig.json .
 ```
 
+Where the first argument should correspond to the location of your source files. One that contains actual source code, since the path aliases are generated based on this path. Most of the time it will be something like this `.`, `./src`, `./lib`...
+
 For other CLI options, which let's you override some defaults and define custom webpack config path, run:
 
 ```
@@ -34,3 +36,7 @@ Options:
   -s, --syntheticImports        Allow default imports from modules with no default export. This does not
                                 affect code emit, just type checking.                                [boolean]
 ```
+
+## Support
+- Node.js >= **10.x**, **>= 14.x** for development
+- npm >= **5.2**

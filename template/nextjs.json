@@ -5,25 +5,25 @@
     "moduleResolution": "node",
     "target": "es2020",
     "module": "es2015",
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/styles/*": ["styles/*"],
+      "@/pages/*": ["pages/*"]
+    }
   },
   "exclude": [
     "dist",
     "node_modules",
     "build",
     ".vscode",
-    ".nuxt",
+    ".next",
     "coverage",
-    "jspm_packages",
-    "tmp",
-    "temp",
-    "bower_components",
     ".npm",
     ".yarn"
   ],
   "typeAcquisition": {
     "enable": true,
-    "include": [
-      "jest"
-    ]
+    "include": ["react", "react-dom"]
   }
 }
