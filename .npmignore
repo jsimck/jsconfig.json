@@ -1,6 +1,9 @@
 node_modules
 .eslintrs.js
 .gitignore
+babel.config.json
+babel.config.json
 ./jsconfig.json
 nodemon.json
 package-lock.json
+./src

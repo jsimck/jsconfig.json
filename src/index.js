@@ -23,7 +23,8 @@ const { persist, success, error, info } = require('./lib/utils');
     success(`jsconfig.json successfully generated at '${params.baseUrl}'.`);
     process.exit(0);
   } catch (e) {
-    error(e.message);
+    error(e);
+    error(e.stack);
     process.exit(1);
   }
 })();

@@ -3,11 +3,12 @@
   "version": "0.1.0-beta.5",
   "description": "Small tool which automatically generates jsconfig.json, used for vscode workspace configuration, with defaults and paths from webpack config.",
   "bin": {
-    "jsconfig.json": "./src/index.js"
+    "jsconfig.json": "./dist/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./src/index.js"
+    "dev": "nodemon ./src/index.js",
+    "build": "babel src --out-dir dist"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,10 @@
   },
   "homepage": "https://github.com/jsimck/jsconfig.json#readme",
   "devDependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.14",
+    "@babel/plugin-proposal-optional-chaining": "^7.13.12",
+    "@babel/preset-env": "^7.13.12",
     "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
@@ -37,6 +42,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.0",
+    "core-js": "^3.10.0",
     "deepmerge": "^4.2.2",
     "yargs": "^16.2.0"
   }

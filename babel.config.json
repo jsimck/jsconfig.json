@@ -1,0 +1,15 @@
+{
+  "plugins": ["@babel/plugin-proposal-optional-chaining"],
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "targets": {
+          "node": "10"
+        },
+        "useBuiltIns": "usage",
+        "corejs": "3.6.5"
+      }
+    ]
+  ]
+}

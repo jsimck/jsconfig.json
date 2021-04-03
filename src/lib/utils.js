@@ -15,7 +15,7 @@ const chalk = require('chalk');
 async function persist(basePath, config = {}) {
   const jsonConfigTpl = require(path.resolve(
     __dirname,
-    '../template/jsconfig.json'
+    '../../template/default.json'
   ));
 
   return writeFile(
