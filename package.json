@@ -9,7 +9,8 @@
     "test": "jest",
     "test:watch": "npm run test -- --watch --maxWorkers=50%",
     "dev": "nodemon ./src/index.js",
-    "build": "babel src --out-dir dist"
+    "build": "babel src --out-dir dist",
+    "preversion": "npm run test; npm run build;"
   },
   "repository": {
     "type": "git",
