@@ -39,7 +39,8 @@ function extractPaths(config, baseUrl) {
  * @return {Promise<{ params, config }>} Adjusted object with params and config objects.
  */
 async function webpackParser({ params, config }) {
-  const { webpackConfigLocation, baseUrl } = params;
+  const { baseUrl } = config;
+  const { webpackConfigLocation } = params;
   const fullConfigPath = path.resolve(webpackConfigLocation);
 
   if (!fs.existsSync(fullConfigPath)) {
@@ -82,7 +83,6 @@ async function webpackParser({ params, config }) {
       ...config,
       compilerOptions: {
         paths,
-        baseUrl: params.baseUrl,
         ...config.compilerOptions,
       },
     },

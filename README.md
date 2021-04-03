@@ -39,3 +39,4 @@ Options:
 
 ## Support
 - Node.js >= **10.x**
+- npm >= **5.2**

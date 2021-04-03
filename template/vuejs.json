@@ -3,9 +3,12 @@
     "checkJs": false,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "target": "es2020",
+    "target": "es2015",
     "module": "es2015",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+    }
   },
   "exclude": [
     "dist",
@@ -14,10 +17,6 @@
     ".vscode",
     ".nuxt",
     "coverage",
-    "jspm_packages",
-    "tmp",
-    "temp",
-    "bower_components",
     ".npm",
     ".yarn"
   ]

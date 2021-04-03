@@ -7,6 +7,8 @@ const CLIArgs = Object.freeze({
   SYNTHETIC_IMPORTS: 'syntheticImports',
   TARGET: 'target',
   MODULE: 'module',
+  TEMPLATE: 'template',
+  BASE_URL: 'baseUrl',
 });
 
 /**
@@ -14,15 +16,27 @@ const CLIArgs = Object.freeze({
  * https://code.visualstudio.com/docs/languages/jsconfig
  */
 const argv = yargs
-  .usage('Usage: npx jsconfig.json <baseUrl> [options]')
+  .usage('Usage: npx jsconfig.json <srcPath> [options]')
   .option({
+    [CLIArgs.TEMPLATE]: {
+      alias: 't',
+      default: 'default',
+      description: 'Base jsconfig.json template',
+      choices: ['default', 'nextjs', 'react', 'vuejs'],
+    },
+    [CLIArgs.BASE_URL]: {
+      alias: 'b',
+      default: '.',
+      description: 'Custom base url used for paths generation',
+      type: 'string',
+    },
     [CLIArgs.WEBPACK_CONFIG]: {
       alias: 'c',
       description: 'Custom path to webpack.config.js',
       type: 'string',
     },
     [CLIArgs.TARGET]: {
-      alias: 't',
+      alias: 'a',
       default: 'es2020',
       type: 'string',
       description: 'Specifies which default library (lib.d.ts) to use',
