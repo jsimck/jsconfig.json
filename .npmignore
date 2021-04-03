@@ -4,6 +4,9 @@ node_modules
 babel.config.json
 babel.config.json
 ./jsconfig.json
+coverage
 nodemon.json
 package-lock.json
-./src
+src
+jest.config.js
+jsconfig.json
