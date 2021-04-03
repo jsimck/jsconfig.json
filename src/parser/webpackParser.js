@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const { info } = require('../lib/utils');
 
 const MOCK_ARGS = [process?.env?.NODE_ENV ?? 'development', ''];
 
@@ -21,7 +22,7 @@ function extractPaths(config, baseUrl) {
     const pathKey = `${cur}/*`;
     const pathVal = `${path.relative(baseUrl, aliases[cur])}/*`;
 
-    if (acc[pathKey] && acc[pathKey].includes(pathVal)) {
+    if (acc[pathKey]?.includes?.(pathVal)) {
       acc[pathKey].push([pathVal]);
     } else {
       acc[pathKey] = [pathVal];
@@ -32,7 +33,7 @@ function extractPaths(config, baseUrl) {
 }
 
 /**
- * Parses webpack config, fills up paths and baseUrl if defined.
+ * Parses webpack config creating path aliases if defined.
  *
  * @param {{ params, config }} args Object with params and config objects.
  * @return {Promise<{ params, config }>} Adjusted object with params and config objects.
@@ -48,11 +49,9 @@ async function webpackParser({ params, config }) {
   const webpackConfig = require(fullConfigPath);
 
   if (!['object', 'function'].includes(typeof webpackConfig)) {
-    console.warn(
+    throw new TypeError(
       `Unable to parse given webpack config: ${fullConfigPath}, it must be either object, function or a promise.`
     );
-
-    return { params, config };
   }
 
   const parsedConfig =
@@ -61,11 +60,12 @@ async function webpackParser({ params, config }) {
       : config(...MOCK_ARGS);
 
   if (!parsedConfig || typeof parsedConfig !== 'object') {
-    console.warn('Unknown error occurred while parsing webpack config.');
-
-    return { params, config };
+    throw new Error(
+      `Unknown error occurred while parsing webpack config at '${fullConfigPath}'`
+    );
   }
 
+  info(`Parsing webpack config at '${fullConfigPath}'...`);
   const paths = Array.isArray(parsedConfig)
     ? parsedConfig.reduce(
         (acc, currentConfig) => ({
@@ -76,16 +76,13 @@ async function webpackParser({ params, config }) {
       )
     : extractPaths(parsedConfig, baseUrl);
 
-  if (params === null) {
-    return { params, config };
-  }
-
   return {
     params,
     config: {
       ...config,
       compilerOptions: {
         paths,
+        baseUrl: params.baseUrl,
         ...config.compilerOptions,
       },
     },

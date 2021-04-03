@@ -14,7 +14,7 @@ const CLIArgs = Object.freeze({
  * https://code.visualstudio.com/docs/languages/jsconfig
  */
 const argv = yargs
-  .usage('Usage: npx jsconfig.json <baseFolder> [options]')
+  .usage('Usage: npx jsconfig.json <baseUrl> [options]')
   .option({
     [CLIArgs.WEBPACK_CONFIG]: {
       alias: 'c',

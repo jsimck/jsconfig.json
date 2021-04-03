@@ -1,9 +1,15 @@
+#!/usr/bin/env node
+
 const { webpackParser } = require('./parser/webpackParser');
 const { argsParser } = require('./parser/argsParser');
-const { persist } = require('./lib/utils');
+const { persist, success, error, info } = require('./lib/utils');
+
+// TODO add support for custom parsers
+// TODO add templates
 
 (async function () {
   const parsers = [argsParser, webpackParser];
+  info('Initializing jsconfig.json parser...');
 
   try {
     // Run parsers in series
@@ -14,7 +20,10 @@ const { persist } = require('./lib/utils');
 
     // Persist and generate new jsconfig.json
     await persist(params.baseUrl, config);
-  } catch (error) {
-    console.error(error);
+    success(`jsconfig.json successfully generated at '${params.baseUrl}'.`);
+    process.exit(0);
+  } catch (e) {
+    error(e.message);
+    process.exit(1);
   }
 })();

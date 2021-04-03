@@ -21,20 +21,22 @@
     "jsconfig.json",
     "tsconfig.json"
   ],
-  "author": "Jan Šimeček <simecekjann@gmail.com> (jansimecek.com)",
+  "author": "Jan Šimeček (jansimecek.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jsimck/jsconfig.json/issues"
   },
   "homepage": "https://github.com/jsimck/jsconfig.json#readme",
   "devDependencies": {
-    "eslint": "^7.20.0",
+    "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
+    "jest": "^26.6.3",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1"
   },
   "dependencies": {
+    "chalk": "^4.1.0",
     "deepmerge": "^4.2.2",
     "yargs": "^16.2.0"
   }
