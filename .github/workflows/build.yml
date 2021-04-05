@@ -1,4 +1,4 @@
-name: Build, Test, Lint
+name: Build > Test > Lint
 
 on: [push]
 
@@ -24,5 +24,3 @@ jobs:
       - run: npm run build
       - run: npm run test
       - run: npm run lint
-
-# Build, test, lint, audit (scheduled), run example webpack
