@@ -1,4 +1,5 @@
 {
+  "ignore": ["./**/__tests__/*", "*.test.*"],
   "plugins": ["@babel/plugin-proposal-optional-chaining"],
   "presets": [
     [

@@ -1,6 +1,6 @@
-name: Build
+name: Build, run tests and linters
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
@@ -10,7 +10,23 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '10.x'
+          node-version: 14
+
+      - name: Cache ~/.npm directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
       - run: npm ci
-      - run: npm run build --if-present
-      - run: npm test
+      - run: npm run build
+      - run: npm run test
+      - run: npm run lint
+
+# Build, test, lint, audit (scheduled), run example webpack
