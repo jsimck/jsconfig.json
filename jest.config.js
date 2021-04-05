@@ -1,5 +1,5 @@
 module.exports = {
-  bail: 0,
+  bail: true,
   clearMocks: true,
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',

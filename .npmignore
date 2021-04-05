@@ -10,3 +10,4 @@ package-lock.json
 src
 jest.config.js
 jsconfig.json
+__tests__

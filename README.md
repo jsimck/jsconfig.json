@@ -38,5 +38,5 @@ Options:
 ```
 
 ## Support
-- Node.js >= **10.x**, **>= 14.x** for development
+- Node.js >= **8.x**, **>= 14.x** for development
 - npm >= **5.2**
