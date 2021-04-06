@@ -3,12 +3,7 @@ import fs from 'fs';
 
 const MOCK_ARGS = [process?.env?.NODE_ENV ?? 'development', ''];
 
-/**
- * Extracts paths from webpack resolve.alias config.
- *
- * @param {{resolve: {alias: {object}}}} config
- * @return {object}
- */
+// TODO better jsdoc, better rest of the tests
 function extractPaths(webpackConf, config) {
   const { baseUrl } = config?.compilerOptions ?? {};
   const { alias } = webpackConf?.resolve ?? {};
