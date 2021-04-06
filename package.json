@@ -8,8 +8,8 @@
   "scripts": {
     "test": "jest",
     "test:watch": "npm run test -- --watch --maxWorkers=50%",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
+    "lint": "eslint -c .eslintrc.js './**/*.js'",
+    "lint:fix": "npm run lint -- --fix",
     "dev": "nodemon ./src/index.js",
     "build": "babel src --out-dir dist",
     "preversion": "npm run test; npm run build;"

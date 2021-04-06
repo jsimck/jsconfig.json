@@ -1,4 +1,4 @@
-const yargs = require('yargs');
+import yargs from 'yargs';
 
 const CLIArgs = Object.freeze({
   WEBPACK_CONFIG: 'webpackConfig',
@@ -8,7 +8,7 @@ const CLIArgs = Object.freeze({
   TARGET: 'target',
   MODULE: 'module',
   TEMPLATE: 'template',
-  BASE_URL: 'baseUrl',
+  BASE_URL: 'baseUrl'
 });
 
 /**
@@ -22,18 +22,18 @@ const argv = yargs
       alias: 't',
       default: 'default',
       description: 'Base jsconfig.json template',
-      choices: ['default', 'nextjs', 'react', 'vuejs', 'node'],
+      choices: ['default', 'nextjs', 'react', 'vuejs', 'node']
     },
     [CLIArgs.BASE_URL]: {
       alias: 'b',
       default: '.',
       description: 'Custom base url used for paths generation',
-      type: 'string',
+      type: 'string'
     },
     [CLIArgs.WEBPACK_CONFIG]: {
       alias: 'c',
       description: 'Custom path to webpack.config.js',
-      type: 'string',
+      type: 'string'
     },
     [CLIArgs.TARGET]: {
       alias: 'a',
@@ -50,8 +50,8 @@ const argv = yargs
         'es2018',
         'es2019',
         'es2020',
-        'esnext',
-      ],
+        'esnext'
+      ]
     },
     [CLIArgs.MODULE]: {
       alias: 'm',
@@ -66,31 +66,28 @@ const argv = yargs
         'esnext',
         'none',
         'system',
-        'umd',
-      ],
+        'umd'
+      ]
     },
     [CLIArgs.MODULE_RESOLUTION]: {
       alias: 'r',
       default: 'node',
       type: 'string',
       description: 'Specifies how modules are resolved for imports',
-      choices: ['node', 'classic'],
+      choices: ['node', 'classic']
     },
     [CLIArgs.EXPERIMENTAL_DECORATORS]: {
       alias: 'e',
       type: 'boolean',
-      description: 'Enables experimental support for proposed ES decorators',
+      description: 'Enables experimental support for proposed ES decorators'
     },
     [CLIArgs.SYNTHETIC_IMPORTS]: {
       alias: 's',
       type: 'boolean',
       description:
-        'Allow default imports from modules with no default export. This does not affect code emit, just type checking.',
-    },
+        'Allow default imports from modules with no default export. This does not affect code emit, just type checking.'
+    }
   })
   .wrap(Math.min(110, yargs.terminalWidth())).argv;
 
-module.exports = {
-  argv,
-  CLIArgs,
-};
+export { argv, CLIArgs };

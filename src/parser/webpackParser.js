@@ -1,6 +1,5 @@
-const path = require('path');
-const fs = require('fs');
-const { info } = require('../lib/utils');
+import path from 'path';
+import fs from 'fs';
 
 const MOCK_ARGS = [process?.env?.NODE_ENV ?? 'development', ''];
 
@@ -8,24 +7,71 @@ const MOCK_ARGS = [process?.env?.NODE_ENV ?? 'development', ''];
  * Extracts paths from webpack resolve.alias config.
  *
  * @param {{resolve: {alias: {object}}}} config
- * @param {string} baseUrl
  * @return {object}
  */
-function extractPaths(config, baseUrl) {
-  const aliases = config?.resolve?.alias;
+function extractPaths(webpackConf, config) {
+  const { baseUrl } = config?.compilerOptions ?? {};
+  const { alias } = webpackConf?.resolve ?? {};
 
-  if (!baseUrl || !aliases || Object.keys(aliases).length === 0) {
+  if (!baseUrl || !alias || Object.keys(alias).length === 0) {
     return null;
   }
 
-  return Object.keys(aliases).reduce((acc, cur) => {
+  return Object.keys(alias).reduce((acc, cur) => {
     const pathKey = `${cur}/*`;
-    const pathVal = `${path.relative(baseUrl, aliases[cur])}/*`;
+    const pathVal = `${path.relative(baseUrl, alias[cur])}/*`;
 
     acc[pathKey] = [pathVal];
 
     return acc;
   }, {});
+}
+
+async function parseWebpackConf(webpackConf, params, config) {
+  const { webpackConfigLocation } = params;
+
+  if (!webpackConf || !['object', 'function'].includes(typeof webpackConf)) {
+    throw new TypeError(
+      `Unable to parse given webpack config: ${webpackConfigLocation}, it must be either object, function or a promise.`
+    );
+  }
+
+  const parsedWebpackConf =
+    typeof webpackConf === 'object'
+      ? await Promise.resolve(webpackConf)
+      : webpackConf(...MOCK_ARGS);
+
+  if (!parsedWebpackConf || typeof parsedWebpackConf !== 'object') {
+    throw new Error(
+      `Unknown error occurred while parsing webpack config at '${webpackConfigLocation}'`
+    );
+  }
+
+  const paths = Array.isArray(parsedWebpackConf)
+    ? parsedWebpackConf.reduce(
+        (acc, currentConfig) => ({
+          ...acc,
+          ...extractPaths(currentConfig, config)
+        }),
+        {}
+      )
+    : extractPaths(parsedWebpackConf, config);
+
+  const result = {
+    params,
+    config: {
+      ...config,
+      compilerOptions: {
+        ...config.compilerOptions
+      }
+    }
+  };
+
+  if (paths && Object.keys(paths).length > 0) {
+    result.config.compilerOptions.paths = paths;
+  }
+
+  return result;
 }
 
 /**
@@ -36,56 +82,22 @@ function extractPaths(config, baseUrl) {
  */
 async function webpackParser({ params, config }) {
   const { webpackConfigLocation } = params;
-  const { baseUrl } = config?.compilerOptions ?? {};
+
+  if (!webpackConfigLocation) {
+    throw new TypeError(
+      `Webpack config location: ${webpackConfigLocation} is invalid.`
+    );
+  }
+
   const fullConfigPath = path.resolve(webpackConfigLocation);
 
   if (!fs.existsSync(fullConfigPath)) {
     return { params, config };
   }
 
-  const webpackConfig = require(fullConfigPath);
-
-  if (!['object', 'function'].includes(typeof webpackConfig)) {
-    throw new TypeError(
-      `Unable to parse given webpack config: ${fullConfigPath}, it must be either object, function or a promise.`
-    );
-  }
-
-  const parsedConfig =
-    typeof webpackConfig === 'object'
-      ? await Promise.resolve(webpackConfig)
-      : config(...MOCK_ARGS);
-
-  if (!parsedConfig || typeof parsedConfig !== 'object') {
-    throw new Error(
-      `Unknown error occurred while parsing webpack config at '${fullConfigPath}'`
-    );
-  }
-
-  info(`Parsing webpack config at '${fullConfigPath}'...`);
-  const paths = Array.isArray(parsedConfig)
-    ? parsedConfig.reduce(
-        (acc, currentConfig) => ({
-          ...acc,
-          ...extractPaths(currentConfig, baseUrl),
-        }),
-        {}
-      )
-    : extractPaths(parsedConfig, baseUrl);
-
-  return {
-    params,
-    config: {
-      ...config,
-      compilerOptions: {
-        paths,
-        ...config.compilerOptions,
-      },
-    },
-  };
+  return parseWebpackConf(require(fullConfigPath), params, config);
 }
 
-module.exports = {
-  webpackParser,
-  extractPaths,
-};
+webpackParser.parserName = 'webpack parser';
+
+export { webpackParser, parseWebpackConf, extractPaths };

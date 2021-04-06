@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const { webpackParser } = require('./parser/webpackParser');
-const { argsParser } = require('./parser/argsParser');
-const { persist, success, error, info } = require('./lib/utils');
-const { argv } = require('./lib/yargs');
+import { webpackParser } from './parser/webpackParser';
+import { argsParser } from './parser/argsParser';
+import { persist, success, error, info } from './lib/utils';
+import { argv } from './lib/yargs';
 
 // TODO add support for custom parsers
 // TODO better jsdoc?
@@ -15,7 +15,14 @@ const { argv } = require('./lib/yargs');
   try {
     // Run parsers in series
     const { params, config } = await parsers.reduce(
-      (chain, parser) => chain.then((...args) => parser(...args)),
+      (chain, parser, index) =>
+        chain.then((...args) => {
+          const parserName =
+            parser.parserName || parser.name || `${index}. parser`;
+          info(`Running: ${parserName}...`);
+
+          return parser(...args);
+        }),
       Promise.resolve({ params: { argv }, config: {} })
     );
 

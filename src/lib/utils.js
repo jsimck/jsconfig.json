@@ -1,10 +1,10 @@
-const path = require('path');
-const fs = require('fs');
-const merge = require('deepmerge');
-const promisify = require('util').promisify;
-const writeFile = promisify(fs.writeFile);
-const chalk = require('chalk');
+import path from 'path';
+import fs from 'fs';
+import merge from 'deepmerge';
+import { promisify } from 'util';
+import chalk from 'chalk';
 
+const writeFile = promisify(fs.writeFile);
 const JSCONFIG_JSON_FILENAME = 'jsconfig.json';
 
 /**
@@ -40,9 +40,4 @@ function info(...args) {
   console.log(chalk.cyan('info -'), chalk.white(...args));
 }
 
-module.exports = {
-  persist,
-  error,
-  info,
-  success,
-};
+export { persist, error, info, success };

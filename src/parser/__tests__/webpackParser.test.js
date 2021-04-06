@@ -1,88 +1,257 @@
-const { extractPaths, webpackParser } = require('../webpackParser');
-
-jest.mock('path', () => ({
-  resolve: jest.fn(() => 'resolved-path'),
-  relative: jest.fn((from, to) => `${from}=>${to}`),
-}));
+import path from 'path';
+import {
+  extractPaths,
+  parseWebpackConf,
+  webpackParser
+} from '../webpackParser';
 
 describe('extractPaths()', () => {
-  it('should return null when there are no webpack aliases defined', () => {
-    expect(extractPaths({}, '')).toBeNull();
-    expect(
-      extractPaths(
-        {
-          resolve: {},
-        },
-        ''
-      )
-    ).toBeNull();
-    expect(
-      extractPaths(
-        {
-          resolve: {
-            alias: null,
-          },
-        },
-        ''
-      )
-    ).toBeNull();
-
-    expect(
-      extractPaths(
-        {
-          resolve: {
-            alias: {},
-          },
-        },
-        ''
-      )
-    ).toBeNull();
+  beforeEach(() => {
+    jest
+      .spyOn(path, 'relative')
+      .mockImplementation((from, to) => `${from}=>${to}`);
   });
 
-  it('should parse webpack aliases correctly', () => {
+  it.each([
+    [
+      {
+        resolve: {}
+      },
+      {
+        compilerOptions: {
+          baseUrl: './'
+        }
+      }
+    ],
+    [
+      {
+        resolve: {
+          alias: null
+        }
+      },
+      {
+        compilerOptions: {
+          baseUrl: './'
+        }
+      }
+    ],
+    [
+      {
+        resolve: {
+          alias: {}
+        }
+      },
+      {}
+    ]
+  ])(
+    'should return null for %j webpack conf and %j config',
+    (webpackConf, config) => {
+      expect(extractPaths(webpackConf, config)).toBeNull();
+    }
+  );
+
+  it.each([
+    [
+      {
+        compilerOptions: {
+          baseUrl: './lib/src'
+        }
+      },
+      {
+        'shared/*': ['./lib/src=>packages/shared/src//*'],
+        'src/*': ['./lib/src=>src//*']
+      }
+    ],
+    [
+      {
+        compilerOptions: {
+          baseUrl: './'
+        }
+      },
+      {
+        'shared/*': ['./=>packages/shared/src//*'],
+        'src/*': ['./=>src//*']
+      }
+    ]
+  ])(
+    'should parse webpack aliases with baseUrl %j correctly',
+    (baseUrl, result) => {
+      expect(
+        extractPaths(
+          {
+            resolve: {
+              alias: {
+                shared: 'packages/shared/src/',
+                src: 'src/'
+              }
+            }
+          },
+          baseUrl
+        )
+      ).toStrictEqual(result);
+    }
+  );
+});
+
+describe('parseWebpackConf()', () => {
+  const parseWebpackConfFactory = async (webpackConf) =>
+    parseWebpackConf(
+      webpackConf,
+      {
+        webpackConfigLocation: 'webpack.conf.js'
+      },
+      {
+        compilerOptions: {
+          baseUrl: './lib/src'
+        }
+      }
+    );
+
+  const baseWebpackConfig = {
+    resolve: {
+      alias: {
+        shared: 'packages/shared/src/',
+        src: 'src/'
+      }
+    }
+  };
+
+  it.each([
+    ['object', baseWebpackConfig],
+    ['promise', Promise.resolve(baseWebpackConfig)],
+    ['function', () => baseWebpackConfig],
+    ['array', [baseWebpackConfig, baseWebpackConfig, baseWebpackConfig]]
+  ])(
+    'should generate valid webpack config for "%s" type of webpack config',
+    async (type, webpackConf) => {
+      expect(await parseWebpackConfFactory(webpackConf)).toStrictEqual({
+        config: {
+          compilerOptions: {
+            baseUrl: './lib/src',
+            paths: {
+              'shared/*': ['./lib/src=>packages/shared/src//*'],
+              'src/*': ['./lib/src=>src//*']
+            }
+          }
+        },
+        params: { webpackConfigLocation: 'webpack.conf.js' }
+      });
+    }
+  );
+
+  it('should correctly resolve duplicate paths with array of webpack configs', async () => {
     expect(
-      extractPaths(
+      await parseWebpackConfFactory([
+        baseWebpackConfig,
         {
           resolve: {
             alias: {
-              shared: 'packages/shared/src/',
-              src: 'src/',
-            },
-          },
+              '@/components': '@/components/'
+            }
+          }
         },
-        './'
-      )
+        baseWebpackConfig
+      ])
     ).toStrictEqual({
-      'shared/*': ['./=>packages/shared/src//*'],
-      'src/*': ['./=>src//*'],
+      config: {
+        compilerOptions: {
+          baseUrl: './lib/src',
+          paths: {
+            '@/components/*': ['./lib/src=>@/components//*'],
+            'shared/*': ['./lib/src=>packages/shared/src//*'],
+            'src/*': ['./lib/src=>src//*']
+          }
+        }
+      },
+      params: { webpackConfigLocation: 'webpack.conf.js' }
     });
   });
 
-  it('should parse webpack aliases correctly with custom baseUrl', () => {
-    expect(
-      extractPaths(
-        {
-          resolve: {
-            alias: {
-              shared: 'packages/shared/src/',
-              src: 'src/',
-            },
-          },
+  it.each([
+    ['object', {}],
+    ['promise', Promise.resolve({})],
+    ['function', () => ({})],
+    ['array', [{}, { resolve: {} }, { resolve: { alias: {} } }]]
+  ])(
+    'should options without paths when there are no aliases defined for %s-type webpack config',
+    async (type, webpackConf) => {
+      expect(await parseWebpackConfFactory(webpackConf)).toStrictEqual({
+        config: {
+          compilerOptions: {
+            baseUrl: './lib/src'
+          }
         },
-        './lib/src'
-      )
-    ).toStrictEqual({
-      'shared/*': ['./lib/src=>packages/shared/src//*'],
-      'src/*': ['./lib/src=>src//*'],
-    });
-  });
+        params: { webpackConfigLocation: 'webpack.conf.js' }
+      });
+    }
+  );
+
+  it.each([[null], [undefined], ['webpack'], [123321]])(
+    'should throw type error for invalid input',
+    async (webpackConf) => {
+      expect.assertions(1);
+
+      await expect(async () => {
+        await parseWebpackConf(webpackConf, {}, {});
+      }).rejects.toThrow(TypeError);
+    }
+  );
+
+  it.each([[() => null], [Promise.resolve(2)], [() => 1]])(
+    'should throw an unknown error for non-parsable config',
+    async (webpackConf) => {
+      expect.assertions(1);
+
+      await expect(async () => {
+        await parseWebpackConf(webpackConf, {}, {});
+      }).rejects.toThrow(Error);
+    }
+  );
 });
 
 describe('webpackParser()', () => {
+  it('should throw an error if webpack location is not provided', async () => {
+    expect.assertions(1);
+
+    await expect(async () => {
+      await webpackParser({ params: {}, config: {} });
+    }).rejects.toThrow(TypeError);
+  });
+
   it('should return input without any modifications if webpack file does not exist', async () => {
-    expect(await webpackParser({ params: {}, config: {} })).toStrictEqual({
-      params: {},
-      config: {},
+    expect(
+      await webpackParser({
+        params: {
+          webpackConfigLocation: 'non-existing-file'
+        },
+        config: {}
+      })
+    ).toStrictEqual({
+      params: {
+        webpackConfigLocation: 'non-existing-file'
+      },
+      config: {}
+    });
+  });
+
+  it('should return parsed webpack config', async () => {
+    expect(
+      await webpackParser({
+        params: {
+          webpackConfigLocation: path.resolve(
+            __dirname,
+            './__mocks__/webpackConfigMock.js'
+          )
+        },
+        config: {}
+      })
+    ).toStrictEqual({
+      params: {
+        webpackConfigLocation: expect.any(String)
+      },
+      config: {
+        compilerOptions: {}
+      }
     });
   });
 });

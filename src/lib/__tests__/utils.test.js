@@ -1,14 +1,14 @@
-const { persist } = require('../utils');
+import { persist } from '../utils';
 
 jest.spyOn(console, 'log').mockImplementation();
 
 jest.mock('path', () => ({
-  resolve: jest.fn(() => './__tests__/__mocks__/template.json'),
-  join: jest.fn((...args) => args),
+  resolve: jest.fn(() => './__tests__/__mocks__/templateMock.json'),
+  join: jest.fn((...args) => args)
 }));
 
 jest.mock('util', () => ({
-  promisify: () => jest.fn((...args) => args),
+  promisify: () => jest.fn((...args) => args)
 }));
 
 describe('persist()', () => {
@@ -16,12 +16,12 @@ describe('persist()', () => {
     expect.assertions(1);
 
     let result = await persist({
-      params: { cwd: '/current/working/directory' },
+      params: { cwd: '/current/working/directory' }
     });
 
     expect(result[0]).toStrictEqual([
       '/current/working/directory',
-      'jsconfig.json',
+      'jsconfig.json'
     ]);
   });
 
@@ -32,9 +32,9 @@ describe('persist()', () => {
       {},
       {
         compilerOptions: {
-          baseUrl: './src',
+          baseUrl: './src'
         },
-        exclude: ['node_modules'],
+        exclude: ['node_modules']
       }
     );
 

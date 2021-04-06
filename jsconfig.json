@@ -2,6 +2,7 @@
   "compilerOptions": {
     "checkJs": false,
     "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "target": "es2020",
     "module": "es2015",
@@ -21,6 +22,7 @@
     ".yarn"
   ],
   "typeAcquisition": {
-    "enable": true
+    "enable": true,
+    "include": ["jest"]
   }
 }

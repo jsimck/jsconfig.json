@@ -1,5 +1,5 @@
-const { CLIArgs } = require('../../lib/yargs');
-const { CompilerOptionKeys, argsParser } = require('../argsParser');
+import { CLIArgs } from '../../lib/yargs';
+import { CompilerOptionKeys, argsParser } from '../argsParser';
 
 jest.mock('../../lib/utils.js');
 
@@ -69,10 +69,10 @@ describe('argsParser()', () => {
             [CLIArgs.MODULE_RESOLUTION]: 'classic',
             [CLIArgs.MODULE]: 'amd',
             [CLIArgs.TARGET]: 'es3',
-            [CLIArgs.BASE_URL]: './src',
-          },
+            [CLIArgs.BASE_URL]: './src'
+          }
         },
-        config: {},
+        config: {}
       })
     ).toMatchInlineSnapshot(`
       Object {

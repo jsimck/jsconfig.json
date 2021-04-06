@@ -1,6 +1,5 @@
-const path = require('path');
-const { info } = require('../lib/utils');
-const { CLIArgs } = require('../lib/yargs');
+import path from 'path';
+import { CLIArgs } from '../lib/yargs';
 
 const CompilerOptionKeys = [
   CLIArgs.MODULE_RESOLUTION,
@@ -8,7 +7,7 @@ const CompilerOptionKeys = [
   CLIArgs.SYNTHETIC_IMPORTS,
   CLIArgs.TARGET,
   CLIArgs.MODULE,
-  CLIArgs.BASE_URL,
+  CLIArgs.BASE_URL
 ];
 
 /**
@@ -25,7 +24,6 @@ async function argsParser({ params, config }) {
     throw new TypeError(`Invalid cwd, '${cwd}' was given.`);
   }
 
-  info('Parsing CLI args...');
   const compilerOptions = Object.values(CLIArgs)
     .filter((key) => CompilerOptionKeys.indexOf(key) !== -1)
     .reduce((acc, cur) => {
@@ -42,16 +40,15 @@ async function argsParser({ params, config }) {
       cwd,
       template: argv?.[CLIArgs.TEMPLATE] || 'default',
       webpackConfigLocation:
-        argv?.[CLIArgs.WEBPACK_CONFIG] || path.join(cwd, 'webpack.config.js'),
+        argv?.[CLIArgs.WEBPACK_CONFIG] || path.join(cwd, 'webpack.config.js')
     },
     config: {
       ...config,
-      compilerOptions,
-    },
+      compilerOptions
+    }
   };
 }
 
-module.exports = {
-  argsParser,
-  CompilerOptionKeys,
-};
+argsParser.parserName = 'args parser';
+
+export { argsParser, CompilerOptionKeys };
