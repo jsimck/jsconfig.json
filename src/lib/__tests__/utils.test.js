@@ -3,7 +3,7 @@ import { persist } from '../utils';
 jest.spyOn(console, 'log').mockImplementation();
 
 jest.mock('path', () => ({
-  resolve: jest.fn(() => './__tests__/__mocks__/templateMock.json'),
+  resolve: jest.fn(() => '../../__mocks__/templateMock.json'),
   join: jest.fn((...args) => args)
 }));
 

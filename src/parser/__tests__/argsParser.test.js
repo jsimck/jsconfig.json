@@ -1,8 +1,6 @@
 import { CLIArgs } from '../../lib/yargs';
 import { CompilerOptionKeys, argsParser } from '../argsParser';
 
-jest.mock('../../lib/utils.js');
-
 describe('CompilerOptionKeys', () => {
   it('should match snapshot', () => {
     expect(CompilerOptionKeys).toMatchInlineSnapshot(`

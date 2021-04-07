@@ -9,10 +9,11 @@ const JSCONFIG_JSON_FILENAME = 'jsconfig.json';
 
 /**
  * Deep merges custom config with the one in the template and generates
- * new jsconfig.json file in the basePath.
+ * new jsconfig.json file in working directory.
  *
- * @param {{ params, config }} args Object with params and config objects.
- * @return {Promise}
+ * @param {{ params, config }} args Object with params and config objects,
+ *        used to carry config and params across parsers.
+ * @return {Promise<void>}
  */
 async function persist({ params: { cwd, template } = {}, config = {} } = {}) {
   info(`Generating jsconfig with '${template}' template...`);

@@ -1,14 +1,9 @@
-#!/usr/bin/env node
-
 import { webpackParser } from './parser/webpackParser';
 import { argsParser } from './parser/argsParser';
 import { persist, success, error, info } from './lib/utils';
 import { argv } from './lib/yargs';
 
-// TODO add support for custom parsers
-// TODO better jsdoc?
-
-(async function () {
+async function main() {
   const parsers = [argsParser, webpackParser];
   info('Initializing jsconfig.json parser...');
 
@@ -35,4 +30,6 @@ import { argv } from './lib/yargs';
     error(e.stack);
     process.exit(1);
   }
-})();
+}
+
+export { main };

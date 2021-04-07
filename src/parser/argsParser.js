@@ -11,10 +11,11 @@ const CompilerOptionKeys = [
 ];
 
 /**
- * Parses CLI args and custom webpack path if provided.
+ * Parses CLI args and generates current working directory if provided.
  *
- * @param {{ params, config }} args Object with params and config objects.
- * @return {Promise<{ params, config }>} Adjusted object with params and config objects.
+ * @param {{ params, config }} args Object with params and config objects,
+ *        used to carry config and params across parsers.
+ * @return {Promise<{ params, config }>} Modified params and config objects.
  */
 async function argsParser({ params, config }) {
   const { argv } = params;

@@ -3,7 +3,14 @@ import fs from 'fs';
 
 const MOCK_ARGS = [process?.env?.NODE_ENV ?? 'development', ''];
 
-// TODO better jsdoc, better rest of the tests
+/**
+ * Generates path aliases from provided webpack config.
+ *
+ * @param {object} webpackConf Webpack config.
+ * @param {object} config Config object.
+ * @return {object<string, Array<string>>} Object with
+ *         defined path aliases.
+ */
 function extractPaths(webpackConf, config) {
   const { baseUrl } = config?.compilerOptions ?? {};
   const { alias } = webpackConf?.resolve ?? {};
@@ -22,6 +29,14 @@ function extractPaths(webpackConf, config) {
   }, {});
 }
 
+/**
+ * Extracts path aliases from provided webpack config.
+ *
+ * @param {object} webpackConf Webpack config.
+ * @param {object} params Params object.
+ * @param {object} config Config object.
+ * @return {Promise<{ params, config }>} Modified params and config objects.
+ */
 async function parseWebpackConf(webpackConf, params, config) {
   const { webpackConfigLocation } = params;
 
@@ -31,10 +46,15 @@ async function parseWebpackConf(webpackConf, params, config) {
     );
   }
 
-  const parsedWebpackConf =
+  let parsedWebpackConf =
     typeof webpackConf === 'object'
       ? await Promise.resolve(webpackConf)
       : webpackConf(...MOCK_ARGS);
+
+  // ES6 modules fix
+  if (parsedWebpackConf.default) {
+    parsedWebpackConf = parsedWebpackConf.default;
+  }
 
   if (!parsedWebpackConf || typeof parsedWebpackConf !== 'object') {
     throw new Error(
@@ -70,10 +90,12 @@ async function parseWebpackConf(webpackConf, params, config) {
 }
 
 /**
- * Parses webpack config creating path aliases if defined.
+ * Parses webpack config creating path aliases in the jsconfig.json
+ * if any are defined within the webpack config.
  *
- * @param {{ params, config }} args Object with params and config objects.
- * @return {Promise<{ params, config }>} Adjusted object with params and config objects.
+ * @param {{ params, config }} args Object with params and config objects,
+ *        used to carry config and params across parsers.
+ * @return {Promise<{ params, config }>} Modified params and config objects.
  */
 async function webpackParser({ params, config }) {
   const { webpackConfigLocation } = params;

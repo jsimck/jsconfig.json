@@ -240,17 +240,26 @@ describe('webpackParser()', () => {
         params: {
           webpackConfigLocation: path.resolve(
             __dirname,
-            './__mocks__/webpackConfigMock.js'
+            '../../../__mocks__/webpackConfigMock.js'
           )
         },
-        config: {}
+        config: {
+          compilerOptions: {
+            baseUrl: './'
+          }
+        }
       })
     ).toStrictEqual({
       params: {
         webpackConfigLocation: expect.any(String)
       },
       config: {
-        compilerOptions: {}
+        compilerOptions: {
+          baseUrl: './',
+          paths: {
+            '@library/*': ['./=>lib/core/index.es5/*']
+          }
+        }
       }
     });
   });
