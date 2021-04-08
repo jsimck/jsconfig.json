@@ -1,3 +1,4 @@
+<br>
 <h1 align="center">jsconfig.json</h1>
 
 <p align="center">
@@ -5,16 +6,15 @@ Automatically generates <b>jsconfig.json</b> for your vscode workspace with opti
 </p>
 
 <p align="center">
-<a href="https://github.com/jsimck/jsconfig.json/actions/workflows/build.yml">
-<img alt="ci" src="https://github.com/jsimck/jsconfig.json/actions/workflows/build.yml/badge.svg?branch=main">
-</a>
-<a href="https://conventionalcommits.org">
-<img alt="Conventional Commits" src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg">
-</a>
-<a href="https://github.com/prettier/prettier">
-<img alt="Prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square">
-</a>
-
+    <a href="https://github.com/jsimck/jsconfig.json/actions/workflows/build.yml">
+    <img alt="ci" src="https://github.com/jsimck/jsconfig.json/actions/workflows/build.yml/badge.svg?branch=main">
+    </a>
+    <a href="https://conventionalcommits.org">
+    <img alt="Conventional Commits" src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg">
+    </a>
+    <a href="https://github.com/prettier/prettier">
+    <img alt="Prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square">
+    </a>
 </p>
 
 ## Quick start
