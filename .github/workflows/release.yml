@@ -21,7 +21,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
 
       # Create git tag
-      - name: tag major and patch versions
+      - name: Create git tag
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
