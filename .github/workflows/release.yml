@@ -16,26 +16,9 @@ jobs:
           package-name: jsconfig.json
           default-branch: main
 
-      # Run install, build and checks
+      # Checkout if released
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14.x'
-          registry-url: 'https://registry.npmjs.org'
-
-      # Setup npm cache
-      - name: Cache ~/.npm directory
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-
-      - run: npm ci
-      - run: npm run build
-      - run: npm run test
-      - run: npm run lint
+        if: ${{ steps.release.outputs.release_created }}
 
       # Create git tag
       - name: tag major and patch versions
@@ -45,6 +28,17 @@ jobs:
           git remote add gh-token "https://${{ secrets.GITHUB_TOKEN}}@github.com/jsimck/jsconfig.json.git"
           git tag -a v${{ steps.release.outputs.tag_name }} -m "Release v${{ steps.release.outputs.tag_name }}"
           git push origin v${{ steps.release.outputs.tag_name }}
+        if: ${{ steps.release.outputs.release_created }}
+
+      # Setup node and build
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm ci
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm run build
         if: ${{ steps.release.outputs.release_created }}
 
       # Handle NPM publication
