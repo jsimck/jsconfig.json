@@ -1,0 +1,48 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: GoogleCloudPlatform/release-please-action@v2
+        id: release
+        with:
+          release-type: node
+          package-name: jsconfig.json
+          default-branch: main
+
+      # Checkout if released
+      - uses: actions/checkout@v2
+        if: ${{ steps.release.outputs.release_created }}
+
+      # Create git tag
+      - name: Create git tag
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git remote add gh-token "https://${{ secrets.GITHUB_TOKEN}}@github.com/jsimck/jsconfig.json.git"
+          git tag -a v${{ steps.release.outputs.tag_name }} -m "Release v${{ steps.release.outputs.tag_name }}"
+          git push origin v${{ steps.release.outputs.tag_name }}
+        if: ${{ steps.release.outputs.release_created }}
+
+      # Setup node and build
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm ci
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm run build
+        if: ${{ steps.release.outputs.release_created }}
+
+      # Handle NPM publication
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        if: ${{ steps.release.outputs.release_created }}
