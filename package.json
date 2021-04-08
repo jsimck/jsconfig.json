@@ -11,7 +11,7 @@
     "test:watch": "npm run test -- --watch --maxWorkers=50%",
     "lint": "eslint -c .eslintrc.js --ignore-path .gitignore './**/*.js'",
     "lint:fix": "npm run lint -- --fix",
-    "dev": "nodemon ./src/index.js",
+    "dev": "nodemon ./src/dev.js",
     "build": "babel src --out-dir dist",
     "commit": "git-cz",
     "preversion": "npm run test; npm run build;"

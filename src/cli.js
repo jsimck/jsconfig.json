@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { main } from './src';
+import { main } from './index.js';
 
 (async function () {
   await main();
