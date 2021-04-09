@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://www.github.com/jsimck/jsconfig.json/compare/v1.0.0...v1.1.0) (2021-04-09)
+
+
+### Features
+
+* 🎸 Added template parser ([d6a761e](https://www.github.com/jsimck/jsconfig.json/commit/d6a761e2b503a4b77f01f041ce0aa1805e9199b7))
+
+
+### Bug Fixes
+
+* 🐛 baseUrl is now not in the result config, if not provided ([500901d](https://www.github.com/jsimck/jsconfig.json/commit/500901dafa6666f563a5cc7eb4fc4746a4629524))
+
 ## 1.0.0 (2021-04-08)
 
 
