@@ -52,9 +52,7 @@ async function templateParser({ params, config }) {
       ...params,
       template: extractTemplate(require(packageJsonPath)) || params.template
     },
-    config: {
-      ...config
-    }
+    config
   };
 }
 

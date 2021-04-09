@@ -26,7 +26,6 @@ const argv = yargs
     },
     [CLIArgs.BASE_URL]: {
       alias: 'b',
-      default: '.',
       description: 'Custom base url used for paths generation',
       type: 'string'
     },

@@ -6,20 +6,19 @@ const MOCK_ARGS = [process?.env?.NODE_ENV ?? 'development', ''];
 /**
  * Generates path aliases from provided webpack config.
  *
- * @param {object} webpackConf Webpack config.
- * @param {object} config Config object.
- * @return {object<string, Array<string>>} Object with
- *         defined path aliases.
+ * @param {Object} webpackConf Webpack config.
+ * @param {Object} config Config object.
+ * @return {Object} Paths object and baseUrl.
  */
 function extractPaths(webpackConf, config) {
-  const { baseUrl } = config?.compilerOptions ?? {};
+  const baseUrl = config?.compilerOptions?.baseUrl ?? '.';
   const { alias } = webpackConf?.resolve ?? {};
 
   if (!baseUrl || !alias || Object.keys(alias).length === 0) {
-    return null;
+    return {};
   }
 
-  return Object.keys(alias).reduce((acc, cur) => {
+  const paths = Object.keys(alias).reduce((acc, cur) => {
     const pathKey = `${cur}/*`;
     const pathVal = `${path.relative(baseUrl, alias[cur])}/*`;
 
@@ -27,14 +26,16 @@ function extractPaths(webpackConf, config) {
 
     return acc;
   }, {});
+
+  return { paths, baseUrl };
 }
 
 /**
  * Extracts path aliases from provided webpack config.
  *
- * @param {object} webpackConf Webpack config.
- * @param {object} params Params object.
- * @param {object} config Config object.
+ * @param {Object} webpackConf Webpack config.
+ * @param {Object} params Params object.
+ * @param {Object} config Config object.
  * @return {Promise<{ params, config }>} Modified params and config objects.
  */
 async function parseWebpackConf(webpackConf, params, config) {
@@ -62,31 +63,35 @@ async function parseWebpackConf(webpackConf, params, config) {
     );
   }
 
-  const paths = Array.isArray(parsedWebpackConf)
-    ? parsedWebpackConf.reduce(
-        (acc, currentConfig) => ({
-          ...acc,
-          ...extractPaths(currentConfig, config)
-        }),
-        {}
-      )
+  const { paths, baseUrl } = Array.isArray(parsedWebpackConf)
+    ? parsedWebpackConf.reduce((acc, currentConfig) => {
+        const extractedPaths = extractPaths(currentConfig, config);
+
+        return {
+          paths: {
+            ...acc.paths,
+            ...extractedPaths.paths
+          },
+          baseUrl: extractedPaths.baseUrl
+        };
+      }, {})
     : extractPaths(parsedWebpackConf, config);
 
-  const result = {
+  if (!paths || Object.keys(paths).length === 0) {
+    return { params, config };
+  }
+
+  return {
     params,
     config: {
       ...config,
       compilerOptions: {
-        ...config.compilerOptions
+        ...config.compilerOptions,
+        baseUrl,
+        paths
       }
     }
   };
-
-  if (paths && Object.keys(paths).length > 0) {
-    result.config.compilerOptions.paths = paths;
-  }
-
-  return result;
 }
 
 /**

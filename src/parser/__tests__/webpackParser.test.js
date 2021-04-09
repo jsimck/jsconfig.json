@@ -44,9 +44,9 @@ describe('extractPaths()', () => {
       {}
     ]
   ])(
-    'should return null for %j webpack conf and %j config',
+    'should return {} for %j webpack conf and %j config',
     (webpackConf, config) => {
-      expect(extractPaths(webpackConf, config)).toBeNull();
+      expect(extractPaths(webpackConf, config)).toStrictEqual({});
     }
   );
 
@@ -58,8 +58,11 @@ describe('extractPaths()', () => {
         }
       },
       {
-        'shared/*': ['./lib/src=>packages/shared/src//*'],
-        'src/*': ['./lib/src=>src//*']
+        paths: {
+          'shared/*': ['./lib/src=>packages/shared/src//*'],
+          'src/*': ['./lib/src=>src//*']
+        },
+        baseUrl: './lib/src'
       }
     ],
     [
@@ -69,8 +72,11 @@ describe('extractPaths()', () => {
         }
       },
       {
-        'shared/*': ['./=>packages/shared/src//*'],
-        'src/*': ['./=>src//*']
+        paths: {
+          'shared/*': ['./=>packages/shared/src//*'],
+          'src/*': ['./=>src//*']
+        },
+        baseUrl: './'
       }
     ]
   ])(
@@ -139,6 +145,21 @@ describe('parseWebpackConf()', () => {
     }
   );
 
+  it('should not append baseUrl when there are no paths', async () => {
+    expect(
+      await parseWebpackConf(
+        { resolve: {} },
+        {
+          webpackConfigLocation: 'webpack.conf.js'
+        },
+        {}
+      )
+    ).toStrictEqual({
+      config: {},
+      params: { webpackConfigLocation: 'webpack.conf.js' }
+    });
+  });
+
   it('should correctly resolve duplicate paths with array of webpack configs', async () => {
     expect(
       await parseWebpackConfFactory([
@@ -173,7 +194,7 @@ describe('parseWebpackConf()', () => {
     ['function', () => ({})],
     ['array', [{}, { resolve: {} }, { resolve: { alias: {} } }]]
   ])(
-    'should options without paths when there are no aliases defined for %s-type webpack config',
+    'should work when there are no aliases defined for %s-type webpack config',
     async (type, webpackConf) => {
       expect(await parseWebpackConfFactory(webpackConf)).toStrictEqual({
         config: {
