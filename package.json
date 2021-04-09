@@ -13,8 +13,7 @@
     "lint:fix": "npm run lint -- --fix",
     "dev": "nodemon ./src/dev.js",
     "build": "babel src --out-dir dist",
-    "commit": "git-cz",
-    "preversion": "npm run test; npm run build;"
+    "commit": "git-cz"
   },
   "repository": {
     "type": "git",

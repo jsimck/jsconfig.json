@@ -1,10 +1,11 @@
 import { webpackParser } from './parser/webpackParser';
 import { argsParser } from './parser/argsParser';
+import { templateParser } from './parser/templateParser';
 import { persist, success, error, info } from './lib/utils';
 import { argv } from './lib/yargs';
 
 async function main() {
-  const parsers = [argsParser, webpackParser];
+  const parsers = [argsParser, templateParser, webpackParser];
   info('Initializing jsconfig.json parser...');
 
   try {
