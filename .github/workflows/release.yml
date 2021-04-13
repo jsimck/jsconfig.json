@@ -26,6 +26,8 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git remote add gh-token "https://${{ secrets.GITHUB_TOKEN}}@github.com/jsimck/jsconfig.json.git"
+          git tag -d v${{ steps.release.outputs.tag_name }} || true
+          git push origin v${{ steps.release.outputs.tag_name }}
           git tag -a v${{ steps.release.outputs.tag_name }} -m "Release v${{ steps.release.outputs.tag_name }}"
           git push origin v${{ steps.release.outputs.tag_name }}
         if: ${{ steps.release.outputs.release_created }}
