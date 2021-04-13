@@ -6,7 +6,7 @@ const TemplateComparisonMap = Object.freeze({
     dependencies: ['next']
   },
   vuejs: {
-    devDependencies: ['poi', 'tyu']
+    devDependencies: ['poi']
   },
   react: {
     dependencies: ['react', 'react-dom', 'react-scripts']
