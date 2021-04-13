@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.1.1](https://www.github.com/jsimck/jsconfig.json/compare/v1.1.0...v1.1.1) (2021-04-13)
+
+
+### Bug Fixes
+
+* 🐛 Improved template parser to work with dev dependencies ([9b488c0](https://www.github.com/jsimck/jsconfig.json/commit/9b488c0c54aedcf2ca8d8d03be22645faaa149ec))
+
 ## [1.1.0](https://www.github.com/jsimck/jsconfig.json/compare/v1.0.0...v1.1.0) (2021-04-09)
 
 
