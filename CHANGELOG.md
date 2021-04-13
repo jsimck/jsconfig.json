@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.1.2](https://www.github.com/jsimck/jsconfig.json/compare/v1.1.1...v1.1.2) (2021-04-13)
+
+
+### Bug Fixes
+
+* 🐛 Fixed vuejs template ([156cba7](https://www.github.com/jsimck/jsconfig.json/commit/156cba7ca0e46af6389274efdaba34071c9501ac))
+
 ### [1.1.1](https://www.github.com/jsimck/jsconfig.json/compare/v1.1.0...v1.1.1) (2021-04-13)
 
 
