@@ -1,14 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DependencyTemplateMap should match snapshot 1`] = `
+exports[`TemplateComparisonMap should match snapshot 1`] = `
 Object {
-  "nextjs": Array [
-    "next",
-  ],
-  "react": Array [
-    "react",
-    "react-dom",
-    "react-scripts",
-  ],
+  "nextjs": Object {
+    "dependencies": Array [
+      "next",
+    ],
+  },
+  "react": Object {
+    "dependencies": Array [
+      "react",
+      "react-dom",
+      "react-scripts",
+    ],
+  },
+  "vuejs": Object {
+    "devDependencies": Array [
+      "poi",
+      "tyu",
+    ],
+  },
 }
 `;

@@ -1,10 +1,40 @@
 import path from 'path';
 import fs from 'fs';
 
-const DependencyTemplateMap = Object.freeze({
-  nextjs: ['next'],
-  react: ['react', 'react-dom', 'react-scripts']
+const TemplateComparisonMap = Object.freeze({
+  nextjs: {
+    dependencies: ['next']
+  },
+  vuejs: {
+    devDependencies: ['poi', 'tyu']
+  },
+  react: {
+    dependencies: ['react', 'react-dom', 'react-scripts']
+  }
 });
+
+/**
+ * Searches for similarities in pkgJson based on comparison object.
+ *
+ * @param {object} pkgJson Package.json.
+ * @param {object} comparisonObj Comparison object.
+ * @return {null|string} Either null or template name in case of match.
+ */
+function comparePkgJson(pkgJson, comparisonObj) {
+  for (let compareKey in comparisonObj) {
+    if (!pkgJson[compareKey]) {
+      continue;
+    }
+
+    for (let pkgKey in pkgJson[compareKey]) {
+      if (comparisonObj[compareKey].indexOf(pkgKey) !== -1) {
+        return true;
+      }
+    }
+  }
+
+  return null;
+}
 
 /**
  * Looks at package.json dependencies and tries to match corresponding
@@ -14,17 +44,15 @@ const DependencyTemplateMap = Object.freeze({
  * @return {string|null} Matched template name or null.
  */
 function extractTemplate(pkgJson) {
-  const { dependencies } = pkgJson || {};
+  const { dependencies, devDependencies } = pkgJson || {};
 
-  if (!dependencies) {
+  if (!dependencies && !devDependencies) {
     return null;
   }
 
-  for (let dependency in dependencies) {
-    for (let template in DependencyTemplateMap) {
-      if (DependencyTemplateMap[template].includes(dependency)) {
-        return template;
-      }
+  for (let template in TemplateComparisonMap) {
+    if (comparePkgJson(pkgJson, TemplateComparisonMap[template])) {
+      return template;
     }
   }
 
@@ -58,4 +86,9 @@ async function templateParser({ params, config }) {
 
 templateParser.parserName = 'template parser';
 
-export { templateParser, extractTemplate, DependencyTemplateMap };
+export {
+  comparePkgJson,
+  templateParser,
+  extractTemplate,
+  TemplateComparisonMap
+};
