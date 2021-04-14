@@ -4,8 +4,8 @@
     Automatically generates <b>jsconfig.json</b> for your vscode workspace with optional support for custom absolute <b>path aliases</b> used for import/export extracted from webpack config resolve alias option.
 </p>
 <p align="center">
-    <a href="https://github.com/jsimck/jsconfig.json/actions/workflows/build.yml">
-        <img alt="ci" src="https://github.com/jsimck/jsconfig.json/actions/workflows/build.yml/badge.svg?branch=main">
+    <a href="https://github.com/jsimck/jsconfig.json/actions/workflows/ci.yml">
+        <img alt="ci" src="https://github.com/jsimck/jsconfig.json/actions/workflows/ci.yml/badge.svg?branch=main">
     </a>
     <a href="https://conventionalcommits.org">
         <img alt="Conventional Commits" src="https://img.shields.io/badge/  Conventional%20Commits-1.0.0-yellow.svg">
