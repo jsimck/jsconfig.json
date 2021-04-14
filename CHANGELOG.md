@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.1.6](https://www.github.com/jsimck/jsconfig.json/compare/v1.1.5...v1.1.6) (2021-04-14)
+
+
+### Bug Fixes
+
+* 🐛 Release process tweaks ([c268385](https://www.github.com/jsimck/jsconfig.json/commit/c2683857dded0f8331b1014e361a49c7aa0d06ec))
+
 ### [1.1.5](https://www.github.com/jsimck/jsconfig.json/compare/v1.1.4...v1.1.5) (2021-04-14)
 
 
