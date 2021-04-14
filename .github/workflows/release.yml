@@ -36,3 +36,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         if: ${{ steps.release.outputs.release_created }}
+
+      # Cleanup release branch
+      - name: Cleanup release branch
+        run: |
+          git push -d release-v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }}
+        if: ${{ steps.release.outputs.release_created }}
