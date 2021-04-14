@@ -1,6 +1,6 @@
 {
   "name": "jsconfig.json",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Small tool which automatically generates jsconfig.json, used for vscode workspace configuration, with defaults and paths from webpack config.",
   "bin": {
     "jsconfig.json": "./dist/cli.js"
