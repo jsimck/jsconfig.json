@@ -17,7 +17,7 @@
 
 ## Quick start
 ```console
-npx jsconfig.json .
+npx jsconfig.json
 ```
 
 By default the `jsconfig.json` is generated in **current working directory** (this is also where the script looks for existence of `webpack.config.js` file in order to try to extract path aliases). This can be changed by providing path to custom working directory as a first argument of the cli (`npx jsconfig.json ~/Workspace/my-awesome-project`).
