@@ -20,18 +20,6 @@ jobs:
       - uses: actions/checkout@v2
         if: ${{ steps.release.outputs.release_created }}
 
-      # Create git tag
-      - name: Create git tag
-        run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git remote add gh-token "https://${{ secrets.GITHUB_TOKEN}}@github.com/jsimck/jsconfig.json.git"
-          git tag -d v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }} || true
-          git push origin v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }}
-          git tag -a v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }} -m "Release v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }}"
-          git push origin v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }}
-        if: ${{ steps.release.outputs.release_created }}
-
       # Setup node and build
       - uses: actions/setup-node@v2
         with:
