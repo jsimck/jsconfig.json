@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://www.github.com/jsimck/jsconfig.json/compare/v1.1.7...v2.0.0) (2021-05-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* 🧨 Dropped node 10 support, now only node 12+ is supported
+
+### Features
+
+* 🎸 Updated dependencies ([3c8a03c](https://www.github.com/jsimck/jsconfig.json/commit/3c8a03c23994b21c7dc096af12fba551eb7bd4f7))
+
 ### [1.1.7](https://www.github.com/jsimck/jsconfig.json/compare/v1.1.6...v1.1.7) (2021-04-14)
 
 
