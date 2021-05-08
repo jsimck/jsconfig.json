@@ -57,7 +57,7 @@ Options:
 ```
 
 ### Support
-- Node.js >= **10.x** (**>= 14.x** for development)
+- Node.js >= **12.x** (**>= 14.x** for development)
 - npm >= **5.2**
 
 
@@ -75,7 +75,7 @@ Which will take you through the process of generating correct format of the comm
 
 ### Build & dev
 
-The source files are transpiled for production package with babel to support nodeJS versions from v10+ (since I'm too lazy to actually write the code so it works on node 10+ without any modifications...). To build source files run `npm run build`.
+The source files are transpiled for production package with babel to support nodeJS versions from v12+ (since I'm too lazy to actually write the code so it works on node 12+ without any modifications...). To build source files run `npm run build`.
 
 To run cli in development you can use `npm run dev` to fires up nodemon which watches changes over the source files. Don't forget to provide custom working directory in this case, since by default it would start overwriting `jsconfig.json` located in the root of this repository (I'll probably provide more straightforward and logical solution in the future to mitigate this issue).
 
