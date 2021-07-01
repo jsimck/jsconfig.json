@@ -28,7 +28,7 @@ There are few predefined jsconfig.json templates, that can be selected using `-t
 
 ### Additional CLI options
 
-There are additional CLI options which allows you to further overwrite additional defaults or even provide custom `--baseUrl` and `--webpackConfigPath` that are used to generate correct paths to aliases. For more options run:
+There are additional CLI options which allows you to further overwrite additional defaults or even provide custom `--baseUrl` and `--webpackConfigPath` that are used to generate correct paths to aliases. Lastly `--output` is used to define custom output directory for generated jsconfig.json file (this will not change the path aliases generation in any way). For more options run:
 
 ```console
 npx jsconfig.json --help
@@ -74,7 +74,7 @@ Which will take you through the process of generating correct format of the comm
 
 ### Development
 
-- To run cli in development you can use `npm run dev` to fires up nodemon which watches changes over the source files. Don't forget to provide custom working directory in this case, since by default it would start overwriting `jsconfig.json` located in the root of this repository (I'll probably provide more straightforward and logical solution in the future to mitigate this issue).
+- To run cli in development you can use `npm run dev` to fires up nodemon which watches changes over the source files. By default the result is written to tmp/jsconfig.json when using nodemon.
 
 ### Tests
 
