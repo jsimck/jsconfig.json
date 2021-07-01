@@ -1,4 +1,4 @@
-import { CLIArgs } from '../yargs';
+const { CLIArgs } = require('../yargs');
 
 describe('CLIArgs', () => {
   it('should match snapshot', () => {

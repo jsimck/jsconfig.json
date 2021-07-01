@@ -1,5 +1,5 @@
-import path from 'path';
-import fs from 'fs';
+const path = require('path');
+const fs = require('fs');
 
 const TemplateComparisonMap = Object.freeze({
   nextjs: {
@@ -86,7 +86,7 @@ async function templateParser({ params, config }) {
 
 templateParser.parserName = 'template parser';
 
-export {
+module.exports = {
   comparePkgJson,
   templateParser,
   extractTemplate,

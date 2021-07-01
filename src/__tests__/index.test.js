@@ -1,7 +1,7 @@
-import path from 'path';
-import { main } from '../index';
-import * as utils from '../lib/utils';
-import { argv } from '../lib/yargs';
+const path = require('path');
+const { main } = require('../index');
+const { argv } = require('../lib/yargs');
+const utils = require('../lib/utils');
 
 describe('main()', () => {
   let result;

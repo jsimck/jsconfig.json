@@ -1,4 +1,4 @@
-import { persist } from '../utils';
+const { persist } = require('../utils');
 
 jest.spyOn(console, 'log').mockImplementation();
 

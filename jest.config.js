@@ -4,6 +4,6 @@ module.exports = {
   clearMocks: true,
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
-  testMatch: ['<rootDir>/src/**/__tests__/*.test.js'],
+  testMatch: ['<rootDir>/src/**/__tests__/**/*.test.js'],
   testEnvironment: 'node'
 };

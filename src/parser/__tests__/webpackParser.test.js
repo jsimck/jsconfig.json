@@ -1,9 +1,9 @@
-import path from 'path';
-import {
+const path = require('path');
+const {
   extractPaths,
   parseWebpackConf,
   webpackParser
-} from '../webpackParser';
+} = require('../webpackParser');
 
 describe('extractPaths()', () => {
   beforeEach(() => {

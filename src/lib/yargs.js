@@ -1,6 +1,7 @@
-import yargs from 'yargs';
+const yargs = require('yargs');
 
 const CLIArgs = Object.freeze({
+  OUTPUT: 'output',
   WEBPACK_CONFIG: 'webpackConfig',
   MODULE_RESOLUTION: 'moduleResolution',
   EXPERIMENTAL_DECORATORS: 'experimentalDecorators',
@@ -17,7 +18,14 @@ const CLIArgs = Object.freeze({
  */
 const argv = yargs
   .usage('Usage: npx jsconfig.json <srcPath> [options]')
+  .strictOptions()
   .option({
+    [CLIArgs.OUTPUT]: {
+      alias: 'o',
+      description:
+        'Optional custom output directory for generated jsconfig.json file',
+      type: 'string'
+    },
     [CLIArgs.TEMPLATE]: {
       alias: 't',
       default: 'default',
@@ -89,4 +97,4 @@ const argv = yargs
   })
   .wrap(Math.min(110, yargs.terminalWidth())).argv;
 
-export { argv, CLIArgs };
+module.exports = { argv, CLIArgs };

@@ -1,5 +1,5 @@
-import { CLIArgs } from '../../lib/yargs';
-import { CompilerOptionKeys, argsParser } from '../argsParser';
+const { CLIArgs } = require('../../lib/yargs');
+const { CompilerOptionKeys, argsParser } = require('../argsParser');
 
 describe('CompilerOptionKeys', () => {
   it('should match snapshot', () => {
