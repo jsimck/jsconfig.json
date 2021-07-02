@@ -23,7 +23,10 @@ async function persist({
 
   const jsonConfigTpl = require(path.resolve(
     __dirname,
-    `../../template/${template}.json`
+    '..',
+    '..',
+    'template',
+    `${template}.json`
   ));
 
   let outputDir = cwd;

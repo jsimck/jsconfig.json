@@ -7,8 +7,8 @@ async function runTest(name, cliArgs = [], cwd = null) {
     const cli = spawn(
       'node',
       [
-        path.resolve(__dirname, '../../', pkgJson.bin['jsconfig.json']),
-        `--output=${path.resolve(__dirname, `./results/${name}`)}`,
+        path.resolve(__dirname, '..', '..', pkgJson.bin['jsconfig.json']),
+        `--output=${path.resolve(__dirname, 'results', name)}`,
         ...cliArgs,
         ...(cwd ? [cwd] : [])
       ],
@@ -45,7 +45,9 @@ describe('jsconfig.json CLI', () => {
         '--baseUrl=./myApp/custom/location',
         `--webpackConfig=${path.resolve(
           __dirname,
-          './mocks/customConfig/custom.webpack.js'
+          'mocks',
+          'customConfig',
+          'custom.webpack.js'
         )}`
       ])
     ).toMatchSnapshot();
@@ -64,7 +66,9 @@ describe('jsconfig.json CLI', () => {
         '--template=nextjs',
         `--webpackConfig=${path.resolve(
           __dirname,
-          './mocks/customConfig/custom.webpack.js'
+          'mocks',
+          'customConfig',
+          'custom.webpack.js'
         )}`
       ])
     ).toMatchSnapshot();
@@ -82,7 +86,9 @@ describe('jsconfig.json CLI', () => {
         '--syntheticImports=false',
         `--webpackConfig=${path.resolve(
           __dirname,
-          './mocks/customConfig/custom.webpack.js'
+          'mocks',
+          'customConfig',
+          'custom.webpack.js'
         )}`
       ])
     ).toMatchSnapshot();

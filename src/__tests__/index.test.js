@@ -14,7 +14,10 @@ describe('main()', () => {
   it('should work with defaults', async () => {
     argv.webpackConfig = path.resolve(
       __dirname,
-      '../../__mocks__/webpackConfigMock.js'
+      '..',
+      '..',
+      '__mocks__',
+      'webpackConfigMock.js'
     );
 
     await main();

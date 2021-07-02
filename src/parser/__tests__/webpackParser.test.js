@@ -261,7 +261,11 @@ describe('webpackParser()', () => {
         params: {
           webpackConfigLocation: path.resolve(
             __dirname,
-            '../../../__mocks__/webpackConfigMock.js'
+            '..',
+            '..',
+            '..',
+            '__mocks__',
+            'webpackConfigMock.js'
           )
         },
         config: {
