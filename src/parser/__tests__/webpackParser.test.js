@@ -77,7 +77,7 @@ describe('extractPaths()', () => {
     [
       {
         compilerOptions: {
-          baseUrl: './'
+          baseUrl: `.${path.sep}`
         }
       },
       {
@@ -87,7 +87,7 @@ describe('extractPaths()', () => {
           ],
           [path.join('src', '*')]: [`.${path.sep}=>${path.join('src', '*')}`]
         },
-        baseUrl: './'
+        baseUrl: `.${path.sep}`
       }
     ]
   ])(
@@ -305,7 +305,7 @@ describe('webpackParser()', () => {
         },
         config: {
           compilerOptions: {
-            baseUrl: './'
+            baseUrl: `.${path.sep}`
           }
         }
       })
@@ -315,9 +315,11 @@ describe('webpackParser()', () => {
       },
       config: {
         compilerOptions: {
-          baseUrl: './',
+          baseUrl: `.${path.sep}`,
           paths: {
-            '@library/*': ['./=>lib/core/index.es5/*']
+            [path.join('@library', '*')]: [
+              `${`.${path.sep}`}=>${path.join('lib', 'core', 'index.es5', '*')}`
+            ]
           }
         }
       }
