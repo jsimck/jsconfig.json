@@ -1,19 +1,20 @@
 const path = require('path');
 const { spawn } = require('child_process');
+const pkgJson = require('../../package.json');
 
 async function runTest(name, cliArgs = [], cwd = null) {
   return new Promise((resolve, reject) => {
     const cli = spawn(
       'node',
       [
-        path.resolve(__dirname, '../cli.js'),
+        path.resolve(__dirname, '../../', pkgJson.bin['jsconfig.json']),
         `--output=${path.resolve(__dirname, `./results/${name}`)}`,
         ...cliArgs,
         ...(cwd ? [cwd] : [])
       ],
       {
         // Set to 'inherit' for debugging
-        stdio: 'inherit'
+        stdio: 'ignore'
       }
     );
 
