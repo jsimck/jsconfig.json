@@ -28,21 +28,70 @@ async function runTest(name, cliArgs = [], cwd = null) {
   });
 }
 
+// TODO use snapshots and resolve windows path separators
 describe('jsconfig.json CLI', () => {
   it('should generate basic jsconfig.json', async () => {
-    expect(await runTest('default')).toMatchSnapshot();
+    expect(await runTest('default')).toStrictEqual({
+      compilerOptions: {
+        checkJs: false,
+        module: 'es2015',
+        moduleResolution: 'node',
+        resolveJsonModule: true,
+        target: 'es2020'
+      },
+      exclude: [
+        'dist',
+        'node_modules',
+        'build',
+        '.vscode',
+        '.nuxt',
+        'coverage',
+        'jspm_packages',
+        'tmp',
+        'temp',
+        'bower_components',
+        '.npm',
+        '.yarn'
+      ],
+      typeAcquisition: { enable: true }
+    });
   });
 
   it('should work with custom cwd', async () => {
     expect(
       await runTest('aliases', [], './src/__e2e__/mocks/aliases')
-    ).toMatchSnapshot();
+    ).toStrictEqual({
+      compilerOptions: {
+        baseUrl: '.',
+        checkJs: false,
+        module: 'es2015',
+        moduleResolution: 'node',
+        paths: { [path.join('myApp', '*')]: [path.join('src', '*')] },
+        resolveJsonModule: true,
+        target: 'es2020'
+      },
+      exclude: [
+        'dist',
+        'node_modules',
+        'build',
+        '.vscode',
+        '.nuxt',
+        'coverage',
+        'jspm_packages',
+        'tmp',
+        'temp',
+        'bower_components',
+        '.npm',
+        '.yarn'
+      ],
+      typeAcquisition: { enable: true }
+    });
   });
 
   it('should work with custom webpack location and baseUrl', async () => {
     expect(
       await runTest('customConfig', [
-        '--baseUrl=./myApp/custom/location',
+        `--baseUrl=${path.join('.', 'myApp', 'custom', 'location')}`,
         `--webpackConfig=${path.resolve(
           __dirname,
           'mocks',
@@ -50,19 +99,177 @@ describe('jsconfig.json CLI', () => {
           'custom.webpack.js'
         )}`
       ])
-    ).toMatchSnapshot();
+    ).toStrictEqual({
+      compilerOptions: {
+        baseUrl: path.join(`${path.join('.', 'myApp', 'custom', 'location')}`),
+        checkJs: false,
+        module: 'es2015',
+        moduleResolution: 'node',
+        paths: {
+          [path.join('myApp', '*')]: [path.join('..', '..', '..', 'src', '*')]
+        },
+        resolveJsonModule: true,
+        target: 'es2020'
+      },
+      exclude: [
+        'dist',
+        'node_modules',
+        'build',
+        '.vscode',
+        '.nuxt',
+        'coverage',
+        'jspm_packages',
+        'tmp',
+        'temp',
+        'bower_components',
+        '.npm',
+        '.yarn'
+      ],
+      typeAcquisition: { enable: true }
+    });
   });
 
-  it.each(
-    ['default', 'nextjs', 'react', 'vuejs', 'node'].map((name) => [name])
-  )('should generate jsconfig.json for %s template correctly', async (name) => {
-    expect(await runTest(name, [`--template=${name}`])).toMatchSnapshot();
-  });
+  it.each([
+    [
+      'default',
+      {
+        compilerOptions: {
+          checkJs: false,
+          module: 'es2015',
+          moduleResolution: 'node',
+          resolveJsonModule: true,
+          target: 'es2020'
+        },
+        exclude: [
+          'dist',
+          'node_modules',
+          'build',
+          '.vscode',
+          '.nuxt',
+          'coverage',
+          'jspm_packages',
+          'tmp',
+          'temp',
+          'bower_components',
+          '.npm',
+          '.yarn'
+        ],
+        typeAcquisition: { enable: true }
+      }
+    ],
+    [
+      'nextjs',
+      {
+        compilerOptions: {
+          baseUrl: '.',
+          checkJs: false,
+          module: 'es2015',
+          moduleResolution: 'node',
+          paths: {
+            [path.join('@', 'components', '*')]: [path.join('components', '*')],
+            [path.join('@', 'pages', '*')]: [path.join('pages', '*')],
+            [path.join('@', 'styles', '*')]: [path.join('styles', '*')]
+          },
+          resolveJsonModule: true,
+          target: 'es2020'
+        },
+        exclude: [
+          'dist',
+          'node_modules',
+          'build',
+          '.vscode',
+          '.next',
+          'coverage',
+          '.npm',
+          '.yarn'
+        ],
+        typeAcquisition: { enable: true, include: ['react', 'react-dom'] }
+      }
+    ],
+    [
+      'react',
+      {
+        compilerOptions: {
+          baseUrl: 'src',
+          checkJs: false,
+          module: 'es2015',
+          moduleResolution: 'node',
+          resolveJsonModule: true,
+          target: 'es2020'
+        },
+        exclude: [
+          'dist',
+          'node_modules',
+          'build',
+          '.vscode',
+          'coverage',
+          '.npm',
+          '.yarn'
+        ],
+        typeAcquisition: {
+          enable: true,
+          include: ['react', 'react-dom', 'jest', 'testing-library__jest-dom']
+        }
+      }
+    ],
+    [
+      'vuejs',
+      {
+        compilerOptions: {
+          baseUrl: '.',
+          checkJs: false,
+          module: 'es2015',
+          moduleResolution: 'node',
+          paths: { [path.join('@', '*')]: [path.join('src', '*')] },
+          resolveJsonModule: true,
+          target: 'es2020'
+        },
+        exclude: [
+          'dist',
+          'node_modules',
+          'build',
+          '.vscode',
+          '.nuxt',
+          'coverage',
+          '.npm',
+          '.yarn'
+        ],
+        typeAcquisition: { enable: true }
+      }
+    ],
+    [
+      'node',
+      {
+        compilerOptions: {
+          checkJs: false,
+          module: 'es2015',
+          moduleResolution: 'node',
+          resolveJsonModule: true,
+          target: 'es2020'
+        },
+        exclude: [
+          'dist',
+          'node_modules',
+          'build',
+          '.vscode',
+          'coverage',
+          '.npm',
+          '.yarn'
+        ],
+        typeAcquisition: { enable: true, include: ['node'] }
+      }
+    ]
+  ])(
+    'should generate jsconfig.json for %s template correctly',
+    async (name, result) => {
+      expect(await runTest(name, [`--template=${name}`])).toStrictEqual(result);
+    }
+  );
 
   it('should merge path aliases with default template', async () => {
     expect(
       await runTest('templateOverride', [
-        '--baseUrl=./myApp/custom/location',
+        `--baseUrl=${path.join('.', 'myApp', 'custom', 'location')}`,
         '--template=nextjs',
         `--webpackConfig=${path.resolve(
           __dirname,
@@ -71,13 +278,39 @@ describe('jsconfig.json CLI', () => {
           'custom.webpack.js'
         )}`
       ])
-    ).toMatchSnapshot();
+    ).toStrictEqual({
+      compilerOptions: {
+        baseUrl: path.join('myApp', 'custom', 'location'),
+        checkJs: false,
+        module: 'es2015',
+        moduleResolution: 'node',
+        paths: {
+          [path.join('@', 'components', '*')]: [path.join('components', '*')],
+          [path.join('@', 'pages', '*')]: [path.join('pages', '*')],
+          [path.join('@', 'styles', '*')]: [path.join('styles', '*')],
+          [path.join('myApp', '*')]: [path.join('..', '..', '..', 'src', '*')]
+        },
+        resolveJsonModule: true,
+        target: 'es2020'
+      },
+      exclude: [
+        'dist',
+        'node_modules',
+        'build',
+        '.vscode',
+        '.next',
+        'coverage',
+        '.npm',
+        '.yarn'
+      ],
+      typeAcquisition: { enable: true, include: ['react', 'react-dom'] }
+    });
   });
 
   it('should allow cli args overrides', async () => {
     expect(
       await runTest('cliArgsOverride', [
-        '--baseUrl=./myApp/custom/location',
+        `--baseUrl=${path.join('.', 'myApp', 'custom', 'location')}`,
         '--template=nextjs',
         '--module=amd',
         '--target=es3',
@@ -91,6 +324,32 @@ describe('jsconfig.json CLI', () => {
           'custom.webpack.js'
         )}`
       ])
-    ).toMatchSnapshot();
+    ).toStrictEqual({
+      compilerOptions: {
+        baseUrl: path.join('myApp', 'custom', 'location'),
+        checkJs: false,
+        module: 'amd',
+        moduleResolution: 'classic',
+        paths: {
+          [path.join('@', 'components', '*')]: [path.join('components', '*')],
+          [path.join('@', 'pages', '*')]: [path.join('pages', '*')],
+          [path.join('@', 'styles', '*')]: [path.join('styles', '*')],
+          [path.join('myApp', '*')]: [path.join('..', '..', '..', 'src', '*')]
+        },
+        resolveJsonModule: true,
+        target: 'es3'
+      },
+      exclude: [
+        'dist',
+        'node_modules',
+        'build',
+        '.vscode',
+        '.next',
+        'coverage',
+        '.npm',
+        '.yarn'
+      ],
+      typeAcquisition: { enable: true, include: ['react', 'react-dom'] }
+    });
   });
 });
