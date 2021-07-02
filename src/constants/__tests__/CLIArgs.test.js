@@ -1,7 +1,7 @@
-const CLIArgs = require("../CLIArgs");
+const CLIArgs = require('../CLIArgs');
 
-describe("CLIArgs", () => {
-  it("should match snapshot", () => {
+describe('CLIArgs', () => {
+  it('should match snapshot', () => {
     expect(CLIArgs).toMatchInlineSnapshot(`
       Object {
         "BASE_URL": "baseUrl",
