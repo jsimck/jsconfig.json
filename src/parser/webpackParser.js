@@ -20,8 +20,8 @@ function extractPaths(webpackConf, config) {
   }
 
   const paths = Object.keys(alias).reduce((acc, cur) => {
-    const pathKey = `${cur}${path.sep}*`;
-    const pathVal = `${path.relative(baseUrl, alias[cur])}${path.sep}*`;
+    const pathKey = path.join(cur, '*');
+    const pathVal = path.relative(baseUrl, path.join(alias[cur], '*'));
 
     acc[pathKey] = [pathVal];
 
