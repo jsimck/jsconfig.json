@@ -21,6 +21,7 @@
     ".yarn"
   ],
   "typeAcquisition": {
-    "enable": true
+    "enable": true,
+    "include": ["jest", "node"]
   }
 }

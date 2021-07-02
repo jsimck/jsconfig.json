@@ -26,8 +26,6 @@ async function persist({
     `../../template/${template}.json`
   ));
 
-  console.log(cwd, output);
-
   let outputDir = cwd;
   if (output) {
     outputDir = path.isAbsolute(output) ? output : path.resolve(output);

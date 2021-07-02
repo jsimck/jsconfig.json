@@ -11,7 +11,6 @@
     "test:unit": "jest --config=jest.config.js",
     "test:unit:watch": "npm run test:unit -- --watch --maxWorkers=50%",
     "test:e2e": "jest --config=jest.e2e.config.js",
-    "test:e2e:watch": "npm run test:e2e -- --watch --maxWorkers=50%",
     "lint": "eslint -c .eslintrc.js --ignore-path .gitignore './**/*.js'",
     "lint:fix": "npm run lint -- --fix",
     "dev": "nodemon ./src/cli.js --output ./tmp",

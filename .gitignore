@@ -115,5 +115,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-src/__tests__/__e2__/results
+src/__e2e__/results
 tmp
