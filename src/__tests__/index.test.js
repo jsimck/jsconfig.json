@@ -1,37 +1,37 @@
-import path from 'path';
-import { main } from '../index';
-import * as utils from '../lib/utils';
-import { argv } from '../lib/yargs';
+const path = require('path');
+const { main } = require('../index');
+const { argv } = require('../lib/yargs');
+const utils = require('../lib/utils');
+
+jest.mock('../lib/utils');
 
 describe('main()', () => {
-  let result;
-
   beforeEach(() => {
-    result = null;
-
     jest.spyOn(console, 'log').mockImplementation(() => {});
     jest.spyOn(process, 'exit').mockImplementation(() => {});
-    jest.spyOn(utils, 'persist').mockImplementation((arg) => {
-      result = { ...arg };
-    });
   });
 
   it('should work with defaults', async () => {
     argv.webpackConfig = path.resolve(
       __dirname,
-      '../../__mocks__/webpackConfigMock.js'
+      '..',
+      '..',
+      '__mocks__',
+      'webpackConfigMock.js'
     );
 
     await main();
 
-    expect(result).toStrictEqual({
+    expect(utils.persist).toHaveBeenCalledWith({
       config: {
         compilerOptions: {
           baseUrl: '.',
           module: 'es2015',
           moduleResolution: 'node',
           paths: {
-            '@library/*': ['lib/core/index.es5/*']
+            [path.join('@library', '*')]: [
+              path.join('lib', 'core', 'index.es5', '*')
+            ]
           },
           target: 'es2020'
         }

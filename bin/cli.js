@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
-import { main } from './index.js';
+const { main } = require('../src');
 
 (async function () {
   await main();
+
+  process.exit(0);
 })();

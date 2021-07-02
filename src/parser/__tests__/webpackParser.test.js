@@ -1,9 +1,9 @@
-import path from 'path';
-import {
+const path = require('path');
+const {
   extractPaths,
   parseWebpackConf,
   webpackParser
-} from '../webpackParser';
+} = require('../webpackParser');
 
 describe('extractPaths()', () => {
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('extractPaths()', () => {
       },
       {
         compilerOptions: {
-          baseUrl: './'
+          baseUrl: `.${path.sep}`
         }
       }
     ],
@@ -31,7 +31,7 @@ describe('extractPaths()', () => {
       },
       {
         compilerOptions: {
-          baseUrl: './'
+          baseUrl: `.${path.sep}`
         }
       }
     ],
@@ -54,29 +54,40 @@ describe('extractPaths()', () => {
     [
       {
         compilerOptions: {
-          baseUrl: './lib/src'
+          baseUrl: path.join('.', 'lib', 'src')
         }
       },
       {
         paths: {
-          'shared/*': ['./lib/src=>packages/shared/src//*'],
-          'src/*': ['./lib/src=>src//*']
+          [path.join('shared', '*')]: [
+            `${path.join('.', 'lib', 'src')}=>${path.join(
+              'packages',
+              'shared',
+              'src',
+              '*'
+            )}`
+          ],
+          [path.join('src', '*')]: [
+            `${path.join('.', 'lib', 'src')}=>${path.join('src', '*')}`
+          ]
         },
-        baseUrl: './lib/src'
+        baseUrl: path.join('.', 'lib', 'src')
       }
     ],
     [
       {
         compilerOptions: {
-          baseUrl: './'
+          baseUrl: `.${path.sep}`
         }
       },
       {
         paths: {
-          'shared/*': ['./=>packages/shared/src//*'],
-          'src/*': ['./=>src//*']
+          [path.join('shared', '*')]: [
+            `.${path.sep}=>${path.join('packages', 'shared', 'src', '*')}`
+          ],
+          [path.join('src', '*')]: [`.${path.sep}=>${path.join('src', '*')}`]
         },
-        baseUrl: './'
+        baseUrl: `.${path.sep}`
       }
     ]
   ])(
@@ -87,8 +98,8 @@ describe('extractPaths()', () => {
           {
             resolve: {
               alias: {
-                shared: 'packages/shared/src/',
-                src: 'src/'
+                shared: path.join('packages', 'shared', 'src'),
+                src: 'src'
               }
             }
           },
@@ -108,7 +119,7 @@ describe('parseWebpackConf()', () => {
       },
       {
         compilerOptions: {
-          baseUrl: './lib/src'
+          baseUrl: path.join('.', 'lib', 'src')
         }
       }
     );
@@ -116,8 +127,8 @@ describe('parseWebpackConf()', () => {
   const baseWebpackConfig = {
     resolve: {
       alias: {
-        shared: 'packages/shared/src/',
-        src: 'src/'
+        shared: path.join('packages', 'shared', 'src'),
+        src: 'src'
       }
     }
   };
@@ -133,10 +144,19 @@ describe('parseWebpackConf()', () => {
       expect(await parseWebpackConfFactory(webpackConf)).toStrictEqual({
         config: {
           compilerOptions: {
-            baseUrl: './lib/src',
+            baseUrl: path.join('.', 'lib', 'src'),
             paths: {
-              'shared/*': ['./lib/src=>packages/shared/src//*'],
-              'src/*': ['./lib/src=>src//*']
+              [path.join('shared', '*')]: [
+                `${path.join('.', 'lib', 'src')}=>${path.join(
+                  'packages',
+                  'shared',
+                  'src',
+                  '*'
+                )}`
+              ],
+              [path.join('src', '*')]: [
+                `${path.join('.', 'lib', 'src')}=>${path.join('src', '*')}`
+              ]
             }
           }
         },
@@ -167,7 +187,7 @@ describe('parseWebpackConf()', () => {
         {
           resolve: {
             alias: {
-              '@/components': '@/components/'
+              [path.join('@', 'components')]: path.join('@', 'components')
             }
           }
         },
@@ -176,11 +196,26 @@ describe('parseWebpackConf()', () => {
     ).toStrictEqual({
       config: {
         compilerOptions: {
-          baseUrl: './lib/src',
+          baseUrl: path.join('.', 'lib', 'src'),
           paths: {
-            '@/components/*': ['./lib/src=>@/components//*'],
-            'shared/*': ['./lib/src=>packages/shared/src//*'],
-            'src/*': ['./lib/src=>src//*']
+            [path.join('@', 'components', '*')]: [
+              `${path.join('.', 'lib', 'src')}=>${path.join(
+                '@',
+                'components',
+                '*'
+              )}`
+            ],
+            [path.join('shared', '*')]: [
+              `${path.join('.', 'lib', 'src')}=>${path.join(
+                'packages',
+                'shared',
+                'src',
+                '*'
+              )}`
+            ],
+            [path.join('src', '*')]: [
+              `${path.join('.', 'lib', 'src')}=>${path.join('src', '*')}`
+            ]
           }
         }
       },
@@ -199,7 +234,7 @@ describe('parseWebpackConf()', () => {
       expect(await parseWebpackConfFactory(webpackConf)).toStrictEqual({
         config: {
           compilerOptions: {
-            baseUrl: './lib/src'
+            baseUrl: path.join('.', 'lib', 'src')
           }
         },
         params: { webpackConfigLocation: 'webpack.conf.js' }
@@ -261,12 +296,16 @@ describe('webpackParser()', () => {
         params: {
           webpackConfigLocation: path.resolve(
             __dirname,
-            '../../../__mocks__/webpackConfigMock.js'
+            '..',
+            '..',
+            '..',
+            '__mocks__',
+            'webpackConfigMock.js'
           )
         },
         config: {
           compilerOptions: {
-            baseUrl: './'
+            baseUrl: `.${path.sep}`
           }
         }
       })
@@ -276,9 +315,11 @@ describe('webpackParser()', () => {
       },
       config: {
         compilerOptions: {
-          baseUrl: './',
+          baseUrl: `.${path.sep}`,
           paths: {
-            '@library/*': ['./=>lib/core/index.es5/*']
+            [path.join('@library', '*')]: [
+              `${`.${path.sep}`}=>${path.join('lib', 'core', 'index.es5', '*')}`
+            ]
           }
         }
       }

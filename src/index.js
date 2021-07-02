@@ -1,8 +1,8 @@
-import { webpackParser } from './parser/webpackParser';
-import { argsParser } from './parser/argsParser';
-import { templateParser } from './parser/templateParser';
-import { persist, success, error, info } from './lib/utils';
-import { argv } from './lib/yargs';
+const { webpackParser } = require('./parser/webpackParser');
+const { argsParser } = require('./parser/argsParser');
+const { templateParser } = require('./parser/templateParser');
+const { persist, success, error, info } = require('./lib/utils');
+const { argv } = require('./lib/yargs');
 
 async function main() {
   const parsers = [argsParser, templateParser, webpackParser];
@@ -24,6 +24,7 @@ async function main() {
 
     // Persist and generate new jsconfig.json
     await persist({ params, config });
+
     success(`jsconfig.json successfully generated at '${params.cwd}'.`);
     process.exit(0);
   } catch (e) {
@@ -33,4 +34,4 @@ async function main() {
   }
 }
 
-export { main };
+module.exports = { main };

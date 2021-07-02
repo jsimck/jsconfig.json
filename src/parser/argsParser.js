@@ -1,5 +1,5 @@
-import path from 'path';
-import { CLIArgs } from '../lib/yargs';
+const path = require('path');
+const CLIArgs = require('../constants/CLIArgs');
 
 const CompilerOptionKeys = [
   CLIArgs.MODULE_RESOLUTION,
@@ -18,8 +18,9 @@ const CompilerOptionKeys = [
  * @return {Promise<{ params, config }>} Modified params and config objects.
  */
 async function argsParser({ params, config }) {
-  const { argv } = params;
-  const cwd = argv?._?.length > 0 ? path.resolve(argv._[0]) : process.cwd();
+  const { argv = {} } = params;
+  const cwd =
+    argv._ && argv._.length > 0 ? path.resolve(argv._[0]) : process.cwd();
 
   if (!cwd || typeof cwd !== 'string') {
     throw new TypeError(`Invalid cwd, '${cwd}' was given.`);
@@ -28,7 +29,7 @@ async function argsParser({ params, config }) {
   const compilerOptions = Object.values(CLIArgs)
     .filter((key) => CompilerOptionKeys.indexOf(key) !== -1)
     .reduce((acc, cur) => {
-      if (argv?.[cur]) {
+      if (argv[cur]) {
         acc[cur] = argv[cur];
       }
 
@@ -39,9 +40,10 @@ async function argsParser({ params, config }) {
     params: {
       ...params,
       cwd,
-      template: argv?.[CLIArgs.TEMPLATE] || 'default',
+      output: argv[CLIArgs.OUTPUT],
+      template: argv[CLIArgs.TEMPLATE] || 'default',
       webpackConfigLocation:
-        argv?.[CLIArgs.WEBPACK_CONFIG] || path.join(cwd, 'webpack.config.js')
+        argv[CLIArgs.WEBPACK_CONFIG] || path.join(cwd, 'webpack.config.js')
     },
     config: {
       ...config,
@@ -52,4 +54,4 @@ async function argsParser({ params, config }) {
 
 argsParser.parserName = 'args parser';
 
-export { argsParser, CompilerOptionKeys };
+module.exports = { argsParser, CompilerOptionKeys };
