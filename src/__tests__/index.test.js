@@ -29,7 +29,9 @@ describe('main()', () => {
           module: 'es2015',
           moduleResolution: 'node',
           paths: {
-            '@library/*': ['lib/core/index.es5/*']
+            [path.join('@library', '*')]: [
+              path.join('lib', 'core', 'index.es5', '*')
+            ]
           },
           target: 'es2020'
         }
