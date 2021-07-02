@@ -1,3 +1,4 @@
+const path = require('path');
 const CLIArgs = require('../../constants/CLIArgs');
 const { CompilerOptionKeys, argsParser } = require('../argsParser');
 
@@ -36,21 +37,19 @@ describe('argsParser()', () => {
 
   it('should parse params with defaults', async () => {
     expect.assertions(1);
-    jest.spyOn(global.process, 'cwd').mockImplementation(() => '/cwd/path');
+    jest
+      .spyOn(global.process, 'cwd')
+      .mockImplementation(() => path.join('cwd', 'path'));
 
-    expect(await argsParser({ params: {}, config: {} })).toMatchInlineSnapshot(`
-      Object {
-        "config": Object {
-          "compilerOptions": Object {},
-        },
-        "params": Object {
-          "cwd": "/cwd/path",
-          "output": undefined,
-          "template": "default",
-          "webpackConfigLocation": "/cwd/path/webpack.config.js",
-        },
+    expect(await argsParser({ params: {}, config: {} })).toStrictEqual({
+      config: { compilerOptions: {} },
+      params: {
+        cwd: path.join('cwd', 'path'),
+        output: undefined,
+        template: 'default',
+        webpackConfigLocation: path.join('cwd', 'path', 'webpack.config.js')
       }
-    `);
+    });
   });
 
   it('should parse custom args correctly', async () => {
