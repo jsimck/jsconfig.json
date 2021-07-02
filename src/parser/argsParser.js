@@ -1,5 +1,5 @@
 const path = require('path');
-const { CLIArgs } = require('../lib/yargs');
+const CLIArgs = require('../constants/CLIArgs');
 
 const CompilerOptionKeys = [
   CLIArgs.MODULE_RESOLUTION,

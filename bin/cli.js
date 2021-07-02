@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { main } = require('./index.js');
+const { main } = require('../src');
 
 (async function () {
   await main();

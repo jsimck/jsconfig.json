@@ -3,17 +3,12 @@ const { main } = require('../index');
 const { argv } = require('../lib/yargs');
 const utils = require('../lib/utils');
 
+jest.mock('../lib/utils');
+
 describe('main()', () => {
-  let result;
-
   beforeEach(() => {
-    result = null;
-
     jest.spyOn(console, 'log').mockImplementation(() => {});
     jest.spyOn(process, 'exit').mockImplementation(() => {});
-    jest.spyOn(utils, 'persist').mockImplementation((arg) => {
-      result = { ...arg };
-    });
   });
 
   it('should work with defaults', async () => {
@@ -24,7 +19,7 @@ describe('main()', () => {
 
     await main();
 
-    expect(result).toStrictEqual({
+    expect(utils.persist).toHaveBeenCalledWith({
       config: {
         compilerOptions: {
           baseUrl: '.',

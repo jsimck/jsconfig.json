@@ -2,6 +2,7 @@ const { persist } = require('../utils');
 
 jest.spyOn(console, 'log').mockImplementation();
 
+jest.mock('fs');
 jest.mock('path', () => ({
   resolve: jest.fn(() => '../../__mocks__/templateMock.json'),
   join: jest.fn((...args) => args)

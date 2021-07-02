@@ -1,16 +1,5 @@
 const yargs = require('yargs');
-
-const CLIArgs = Object.freeze({
-  OUTPUT: 'output',
-  WEBPACK_CONFIG: 'webpackConfig',
-  MODULE_RESOLUTION: 'moduleResolution',
-  EXPERIMENTAL_DECORATORS: 'experimentalDecorators',
-  SYNTHETIC_IMPORTS: 'syntheticImports',
-  TARGET: 'target',
-  MODULE: 'module',
-  TEMPLATE: 'template',
-  BASE_URL: 'baseUrl'
-});
+const CLIArgs = require('../constants/CLIArgs');
 
 /**
  * Option descriptions are taken directly from the jsconfig documentation
@@ -97,4 +86,4 @@ const argv = yargs
   })
   .wrap(Math.min(110, yargs.terminalWidth())).argv;
 
-module.exports = { argv, CLIArgs };
+module.exports = { argv };

@@ -1,4 +1,4 @@
-const { CLIArgs } = require('../../lib/yargs');
+const CLIArgs = require('../../constants/CLIArgs');
 const { CompilerOptionKeys, argsParser } = require('../argsParser');
 
 describe('CompilerOptionKeys', () => {
@@ -45,6 +45,7 @@ describe('argsParser()', () => {
         },
         "params": Object {
           "cwd": "/cwd/path",
+          "output": undefined,
           "template": "default",
           "webpackConfigLocation": "/cwd/path/webpack.config.js",
         },
@@ -70,6 +71,7 @@ describe('argsParser()', () => {
             [CLIArgs.BASE_URL]: './src'
           }
         },
+
         config: {}
       })
     ).toMatchInlineSnapshot(`
@@ -95,6 +97,7 @@ describe('argsParser()', () => {
             "webpackConfig": "webpack.config.common.js",
           },
           "cwd": "/cwd/path",
+          "output": undefined,
           "template": "react",
           "webpackConfigLocation": "webpack.config.common.js",
         },
