@@ -7,7 +7,7 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "test": "npm run test:unit; npm run test:e2e",
+    "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "jest --config=jest.config.js",
     "test:unit:watch": "npm run test:unit -- --watch --maxWorkers=50%",
     "test:e2e": "jest --config=jest.e2e.config.js",
