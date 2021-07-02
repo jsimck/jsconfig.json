@@ -7,6 +7,37 @@ const chalk = require('chalk');
 const writeFile = promisify(fs.writeFile);
 const JSCONFIG_JSON_FILENAME = 'jsconfig.json';
 
+function fixPathSeparators(template) {
+  const templateCopy = { ...template };
+  const fixSeparators = (str) => {
+    return str.replace(/\//gi, path.sep);
+  };
+
+  if (templateCopy.compilerOptions && templateCopy.compilerOptions.baseUrl) {
+    templateCopy.compilerOptions.baseUrl = fixSeparators(
+      templateCopy.compilerOptions.baseUrl
+    );
+  }
+
+  if (templateCopy.compilerOptions && templateCopy.compilerOptions.paths) {
+    console.log(templateCopy.compilerOptions.paths);
+    const newPaths = Object.keys(templateCopy.compilerOptions.paths).reduce(
+      (acc, cur) => {
+        acc[fixSeparators(cur)] = templateCopy.compilerOptions.paths[cur].map(
+          (path) => fixSeparators(path)
+        );
+
+        return acc;
+      },
+      {}
+    );
+
+    templateCopy.compilerOptions.paths = newPaths;
+  }
+
+  return templateCopy;
+}
+
 /**
  * Deep merges custom config with the one in the template and generates
  * new jsconfig.json file in working directory.
@@ -21,13 +52,9 @@ async function persist({
 } = {}) {
   info(`Generating jsconfig with '${template}' template...`);
 
-  const jsonConfigTpl = require(path.resolve(
-    __dirname,
-    '..',
-    '..',
-    'template',
-    `${template}.json`
-  ));
+  const jsonConfigTpl = fixPathSeparators(
+    require(path.resolve(__dirname, '..', '..', 'template', `${template}.json`))
+  );
 
   let outputDir = cwd;
   if (output) {
@@ -61,4 +88,4 @@ function warn(...args) {
   console.log(chalk.bold.yellow('warn: '), chalk.white(...args));
 }
 
-module.exports = { persist, error, info, success, warn };
+module.exports = { fixPathSeparators, persist, error, info, success, warn };
