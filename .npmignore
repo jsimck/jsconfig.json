@@ -10,5 +10,5 @@ jsconfig.json
 __tests__
 __e2e__
 __mocks__
-commitlint.config
-jest.e2e.config
+jest.e2e.config.js
+commitlint.config.js
