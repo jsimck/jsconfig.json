@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.1.0](https://www.github.com/jsimck/jsconfig.json/compare/v2.0.0...v2.1.0) (2021-07-27)
+
+
+### Features
+
+* 🎸 Added --output option to CLI args ([a585c81](https://www.github.com/jsimck/jsconfig.json/commit/a585c8151e2fd569acd8d67bc1e219d6308aa50e))
+* 🎸 Dropped babel and rewritten code to be Node12 compliant ([7c4dde7](https://www.github.com/jsimck/jsconfig.json/commit/7c4dde7639096a61a042c7d44de5e848b4717f45))
+
+
+### Bug Fixes
+
+* 🐛 additional windows specific path fixes ([4f6c58f](https://www.github.com/jsimck/jsconfig.json/commit/4f6c58ff6f186c754ef61247f01be25f72474759))
+* 🐛 additional windows specific path fixes ([5d4b727](https://www.github.com/jsimck/jsconfig.json/commit/5d4b727876d067fbf8c3d21ea60d969cb682feff))
+* 🐛 Fixed npmignore ([6cfb9f7](https://www.github.com/jsimck/jsconfig.json/commit/6cfb9f77bed8a876b17f70f8e503f5ac3ad3cc34))
+* 🐛 Fixed windows specific path errors ([da542fa](https://www.github.com/jsimck/jsconfig.json/commit/da542fa8c21060c443a78b1fe08850492b5fdd5f))
+
 ## [2.0.0](https://www.github.com/jsimck/jsconfig.json/compare/v1.1.7...v2.0.0) (2021-05-08)
 
 
