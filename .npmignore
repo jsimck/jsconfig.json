@@ -1,13 +1,14 @@
 node_modules
 .eslintrs.js
 .gitignore
-babel.config.json
-babel.config.json
 ./jsconfig.json
 coverage
 nodemon.json
 package-lock.json
-src
 jest.config.js
 jsconfig.json
 __tests__
+__e2e__
+__mocks__
+jest.e2e.config.js
+commitlint.config.js

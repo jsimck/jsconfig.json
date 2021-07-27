@@ -1,10 +1,10 @@
-import fs from 'fs';
-import {
+const fs = require('fs');
+const {
   templateParser,
   extractTemplate,
   TemplateComparisonMap,
   comparePkgJson
-} from '../templateParser';
+} = require('../templateParser');
 
 describe('TemplateComparisonMap', () => {
   it('should match snapshot', () => {

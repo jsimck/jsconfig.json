@@ -1,5 +1,6 @@
-import { CLIArgs } from '../../lib/yargs';
-import { CompilerOptionKeys, argsParser } from '../argsParser';
+const path = require('path');
+const CLIArgs = require('../../constants/CLIArgs');
+const { CompilerOptionKeys, argsParser } = require('../argsParser');
 
 describe('CompilerOptionKeys', () => {
   it('should match snapshot', () => {
@@ -36,20 +37,19 @@ describe('argsParser()', () => {
 
   it('should parse params with defaults', async () => {
     expect.assertions(1);
-    jest.spyOn(global.process, 'cwd').mockImplementation(() => '/cwd/path');
+    jest
+      .spyOn(global.process, 'cwd')
+      .mockImplementation(() => path.join('cwd', 'path'));
 
-    expect(await argsParser({ params: {}, config: {} })).toMatchInlineSnapshot(`
-      Object {
-        "config": Object {
-          "compilerOptions": Object {},
-        },
-        "params": Object {
-          "cwd": "/cwd/path",
-          "template": "default",
-          "webpackConfigLocation": "/cwd/path/webpack.config.js",
-        },
+    expect(await argsParser({ params: {}, config: {} })).toStrictEqual({
+      config: { compilerOptions: {} },
+      params: {
+        cwd: path.join('cwd', 'path'),
+        output: undefined,
+        template: 'default',
+        webpackConfigLocation: path.join('cwd', 'path', 'webpack.config.js')
       }
-    `);
+    });
   });
 
   it('should parse custom args correctly', async () => {
@@ -70,6 +70,7 @@ describe('argsParser()', () => {
             [CLIArgs.BASE_URL]: './src'
           }
         },
+
         config: {}
       })
     ).toMatchInlineSnapshot(`
@@ -95,6 +96,7 @@ describe('argsParser()', () => {
             "webpackConfig": "webpack.config.common.js",
           },
           "cwd": "/cwd/path",
+          "output": undefined,
           "template": "react",
           "webpackConfigLocation": "webpack.config.common.js",
         },

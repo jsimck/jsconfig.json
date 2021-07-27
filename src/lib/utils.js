@@ -1,11 +1,42 @@
-import path from 'path';
-import fs from 'fs';
-import merge from 'deepmerge';
-import { promisify } from 'util';
-import chalk from 'chalk';
+const path = require('path');
+const fs = require('fs');
+const merge = require('deepmerge');
+const { promisify } = require('util');
+const chalk = require('chalk');
 
 const writeFile = promisify(fs.writeFile);
 const JSCONFIG_JSON_FILENAME = 'jsconfig.json';
+
+function fixPathSeparators(template) {
+  const templateCopy = { ...template };
+  const fixSeparators = (str) => {
+    return str.replace(/\//gi, path.sep);
+  };
+
+  if (templateCopy.compilerOptions && templateCopy.compilerOptions.baseUrl) {
+    templateCopy.compilerOptions.baseUrl = fixSeparators(
+      templateCopy.compilerOptions.baseUrl
+    );
+  }
+
+  if (templateCopy.compilerOptions && templateCopy.compilerOptions.paths) {
+    console.log(templateCopy.compilerOptions.paths);
+    const newPaths = Object.keys(templateCopy.compilerOptions.paths).reduce(
+      (acc, cur) => {
+        acc[fixSeparators(cur)] = templateCopy.compilerOptions.paths[cur].map(
+          (path) => fixSeparators(path)
+        );
+
+        return acc;
+      },
+      {}
+    );
+
+    templateCopy.compilerOptions.paths = newPaths;
+  }
+
+  return templateCopy;
+}
 
 /**
  * Deep merges custom config with the one in the template and generates
@@ -15,30 +46,46 @@ const JSCONFIG_JSON_FILENAME = 'jsconfig.json';
  *        used to carry config and params across parsers.
  * @return {Promise<void>}
  */
-async function persist({ params: { cwd, template } = {}, config = {} } = {}) {
+async function persist({
+  params: { output, cwd, template } = {},
+  config = {}
+} = {}) {
   info(`Generating jsconfig with '${template}' template...`);
 
-  const jsonConfigTpl = require(path.resolve(
-    __dirname,
-    `../../template/${template}.json`
-  ));
+  const jsonConfigTpl = fixPathSeparators(
+    require(path.resolve(__dirname, '..', '..', 'template', `${template}.json`))
+  );
+
+  let outputDir = cwd;
+  if (output) {
+    outputDir = path.isAbsolute(output) ? output : path.resolve(output);
+  }
+
+  if (!fs.existsSync(outputDir)) {
+    warn("Output directory doesn't exist and will be created.");
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
 
   return writeFile(
-    path.join(cwd, JSCONFIG_JSON_FILENAME),
+    path.join(outputDir, JSCONFIG_JSON_FILENAME),
     JSON.stringify(merge(jsonConfigTpl, config), null, 2)
   );
 }
 
 function error(...args) {
-  console.log(chalk.red('error -'), chalk.white(...args));
+  console.log(chalk.bold.red('error: '), chalk.white(...args));
 }
 
 function success(...args) {
-  console.log(chalk.green('success -'), chalk.white(...args));
+  console.log(chalk.bold.green('success: '), chalk.white(...args));
 }
 
 function info(...args) {
-  console.log(chalk.cyan('info -'), chalk.white(...args));
+  console.log(chalk.bold.cyan('info: '), chalk.white(...args));
 }
 
-export { persist, error, info, success };
+function warn(...args) {
+  console.log(chalk.bold.yellow('warn: '), chalk.white(...args));
+}
+
+module.exports = { fixPathSeparators, persist, error, info, success, warn };

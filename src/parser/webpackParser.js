@@ -1,7 +1,7 @@
-import path from 'path';
-import fs from 'fs';
+const path = require('path');
+const fs = require('fs');
 
-const MOCK_ARGS = [process?.env?.NODE_ENV ?? 'development', ''];
+const MOCK_ARGS = [process.env.NODE_ENV || 'development', ''];
 
 /**
  * Generates path aliases from provided webpack config.
@@ -11,16 +11,17 @@ const MOCK_ARGS = [process?.env?.NODE_ENV ?? 'development', ''];
  * @return {Object} Paths object and baseUrl.
  */
 function extractPaths(webpackConf, config) {
-  const baseUrl = config?.compilerOptions?.baseUrl ?? '.';
-  const { alias } = webpackConf?.resolve ?? {};
+  const baseUrl =
+    (config.compilerOptions && config.compilerOptions.baseUrl) || '.';
+  const { alias } = (webpackConf && webpackConf.resolve) || {};
 
   if (!baseUrl || !alias || Object.keys(alias).length === 0) {
     return {};
   }
 
   const paths = Object.keys(alias).reduce((acc, cur) => {
-    const pathKey = `${cur}/*`;
-    const pathVal = `${path.relative(baseUrl, alias[cur])}/*`;
+    const pathKey = path.join(cur, '*');
+    const pathVal = path.relative(baseUrl, path.join(alias[cur], '*'));
 
     acc[pathKey] = [pathVal];
 
@@ -122,4 +123,4 @@ async function webpackParser({ params, config }) {
 
 webpackParser.parserName = 'webpack parser';
 
-export { webpackParser, parseWebpackConf, extractPaths };
+module.exports = { webpackParser, parseWebpackConf, extractPaths };
