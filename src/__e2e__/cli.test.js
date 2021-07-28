@@ -403,7 +403,7 @@ describe('jsconfig.json CLI', () => {
         paths: {
           '#internal/*': ['./src/internal/*'],
           '#libs/*': ['./src/libs/path/extra/*'],
-          'myApp/*': ['src/*']
+          [path.join('myApp', '*')]: [path.join('src', '*')]
         },
         resolveJsonModule: true,
         target: 'es2020'
