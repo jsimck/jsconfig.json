@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://www.github.com/jsimck/jsconfig.json/compare/v2.1.0...v2.2.0) (2021-07-28)
+
+
+### Features
+
+* 🎸 Added support for node imports subpath patterns ([f921a42](https://www.github.com/jsimck/jsconfig.json/commit/f921a42ab563a2568923a36eb5ff1026693a7d14))
+
 ## [2.1.0](https://www.github.com/jsimck/jsconfig.json/compare/v2.0.0...v2.1.0) (2021-07-27)
 
 
