@@ -1,16 +1,22 @@
 const { webpackParser } = require('./parser/webpackParser');
 const { argsParser } = require('./parser/argsParser');
 const { templateParser } = require('./parser/templateParser');
+const { nodeImportsParser } = require('./parser/nodeImportsParser');
+
 const { persist, success, error, info } = require('./lib/utils');
 const { argv } = require('./lib/yargs');
 
 async function main() {
-  const parsers = [argsParser, templateParser, webpackParser];
   info('Initializing jsconfig.json parser...');
 
   try {
     // Run parsers in series
-    const { params, config } = await parsers.reduce(
+    const { params, config } = await [
+      argsParser,
+      templateParser,
+      webpackParser,
+      nodeImportsParser
+    ].reduce(
       (chain, parser, index) =>
         chain.then((...args) => {
           const parserName =

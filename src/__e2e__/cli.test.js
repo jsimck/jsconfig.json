@@ -352,4 +352,77 @@ describe('jsconfig.json CLI', () => {
       typeAcquisition: { enable: true, include: ['react', 'react-dom'] }
     });
   });
+
+  it('should correctly parse node imports subpath patterns from package.json', async () => {
+    expect(
+      await runTest('nodeImports', [], './src/__e2e__/mocks/nodeImports')
+    ).toStrictEqual({
+      compilerOptions: {
+        baseUrl: '.',
+        checkJs: false,
+        module: 'es2015',
+        moduleResolution: 'node',
+        paths: {
+          '#internal/*': ['./src/internal/*'],
+          '#libs/*': ['./src/libs/path/extra/*']
+        },
+        resolveJsonModule: true,
+        target: 'es2020'
+      },
+      exclude: [
+        'dist',
+        'node_modules',
+        'build',
+        '.vscode',
+        '.nuxt',
+        'coverage',
+        'jspm_packages',
+        'tmp',
+        'temp',
+        'bower_components',
+        '.npm',
+        '.yarn'
+      ],
+      typeAcquisition: { enable: true }
+    });
+  });
+
+  it('should merge webpack paths with nodejs imports', async () => {
+    expect(
+      await runTest(
+        'nodeImportsWebpack',
+        [],
+        './src/__e2e__/mocks/nodeImportsWebpack'
+      )
+    ).toStrictEqual({
+      compilerOptions: {
+        baseUrl: '.',
+        checkJs: false,
+        module: 'es2015',
+        moduleResolution: 'node',
+        paths: {
+          '#internal/*': ['./src/internal/*'],
+          '#libs/*': ['./src/libs/path/extra/*'],
+          [path.join('myApp', '*')]: [path.join('src', '*')]
+        },
+        resolveJsonModule: true,
+        target: 'es2020'
+      },
+      exclude: [
+        'dist',
+        'node_modules',
+        'build',
+        '.vscode',
+        '.nuxt',
+        'coverage',
+        'jspm_packages',
+        'tmp',
+        'temp',
+        'bower_components',
+        '.npm',
+        '.yarn'
+      ],
+      typeAcquisition: { enable: true }
+    });
+  });
 });
