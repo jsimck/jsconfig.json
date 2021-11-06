@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.3.0](https://www.github.com/jsimck/jsconfig.json/compare/v2.2.0...v2.3.0) (2021-11-06)
+
+
+### Features
+
+* 🎸 Migrated from chalk to picocolors ([3c8e54d](https://www.github.com/jsimck/jsconfig.json/commit/3c8e54da61cb8be0df5b79e48fb255cdb9d96b05))
+
+
+### Bug Fixes
+
+* 🐛 npm audit fixes ([7166121](https://www.github.com/jsimck/jsconfig.json/commit/7166121d33436745a515badbb24ecc043e7fc9c8))
+
 ## [2.2.0](https://www.github.com/jsimck/jsconfig.json/compare/v2.1.0...v2.2.0) (2021-07-28)
 
 
