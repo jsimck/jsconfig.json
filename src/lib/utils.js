@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const merge = require('deepmerge');
 const { promisify } = require('util');
-const chalk = require('chalk');
+const pc = require('picocolors');
 
 const writeFile = promisify(fs.writeFile);
 const JSCONFIG_JSON_FILENAME = 'jsconfig.json';
@@ -73,19 +73,19 @@ async function persist({
 }
 
 function error(...args) {
-  console.log(chalk.bold.red('error: '), chalk.white(...args));
+  console.log(pc.red('error: '), pc.white(...args));
 }
 
 function success(...args) {
-  console.log(chalk.bold.green('success: '), chalk.white(...args));
+  console.log(pc.green('success: '), pc.white(...args));
 }
 
 function info(...args) {
-  console.log(chalk.bold.cyan('info: '), chalk.white(...args));
+  console.log(pc.cyan('info: '), pc.white(...args));
 }
 
 function warn(...args) {
-  console.log(chalk.bold.yellow('warn: '), chalk.white(...args));
+  console.log(pc.yellow('warn: '), pc.white(...args));
 }
 
 module.exports = { fixPathSeparators, persist, error, info, success, warn };
