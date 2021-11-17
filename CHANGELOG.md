@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.3.2](https://www.github.com/jsimck/jsconfig.json/compare/v2.3.1...v2.3.2) (2021-11-17)
+
+
+### Bug Fixes
+
+* 🐛 Removed stranded debugging console.log ([ba22aa9](https://www.github.com/jsimck/jsconfig.json/commit/ba22aa91859db2a6a0c637e07b124c55f6a821f7))
+
 ### [2.3.1](https://www.github.com/jsimck/jsconfig.json/compare/v2.3.0...v2.3.1) (2021-11-17)
 
 
