@@ -20,7 +20,6 @@ function fixPathSeparators(template) {
   }
 
   if (templateCopy.compilerOptions && templateCopy.compilerOptions.paths) {
-    console.log(templateCopy.compilerOptions.paths);
     const newPaths = Object.keys(templateCopy.compilerOptions.paths).reduce(
       (acc, cur) => {
         acc[fixSeparators(cur)] = templateCopy.compilerOptions.paths[cur].map(
