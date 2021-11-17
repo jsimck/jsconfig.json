@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.3.1](https://www.github.com/jsimck/jsconfig.json/compare/v2.3.0...v2.3.1) (2021-11-17)
+
+
+### Bug Fixes
+
+* 🐛 Fixed picocolors missing dependency ([34c5447](https://www.github.com/jsimck/jsconfig.json/commit/34c54473302fa9810c8732c9af2766d97e7d0e96))
+
 ## [2.3.0](https://www.github.com/jsimck/jsconfig.json/compare/v2.2.0...v2.3.0) (2021-11-06)
 
 
