@@ -17,7 +17,7 @@ jobs:
           default-branch: main
 
       # Checkout if released
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         if: ${{ steps.release.outputs.release_created }}
 
       # Setup node and install dependencies
