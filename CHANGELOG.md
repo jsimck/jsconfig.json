@@ -1,5 +1,12 @@
 # Changelog
 
+### [2.3.3](https://github.com/jsimck/jsconfig.json/compare/v2.3.2...v2.3.3) (2022-03-19)
+
+
+### Miscellaneous Chores
+
+* release 2.3.3 ([305a896](https://github.com/jsimck/jsconfig.json/commit/305a89695a56e5b5033e6940f75df3bdbc7f1555))
+
 ### [2.3.2](https://www.github.com/jsimck/jsconfig.json/compare/v2.3.1...v2.3.2) (2021-11-17)
 
 
