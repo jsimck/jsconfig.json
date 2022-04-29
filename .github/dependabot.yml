@@ -9,3 +9,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    ignore:
+      - dependency-name: "*"
+        # For Express, ignore all updates for version 4 and 5
+        versions: ["patch"]
